@@ -6,7 +6,7 @@ from statsmodels.formula.api import ols
 
 
 # Load the dataset with pandas
-df = pd.read_hdf()
+df = pd.read_hdf('/path/to/file')
 # Columns:
 #  - graph (array)
 #  - subject (categorical)
