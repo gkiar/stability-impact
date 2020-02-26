@@ -13,11 +13,15 @@ df = pd.read_hdf()
 #  - session (categorical)
 #  - pipeline (categorical)
 #  - seed (categorical)
-#  - directions (int)
+#  - dirs (int)
 #  - mca (categorical)
 
-# Set the linear model equation
-model_equation = "graph ~ C(subject)*C(session)*C(pipeline)*C(seed)*C(directions)"
+# Set the linear model equation. MCA is the residual
+# With interaction terms
+# model_equation = "graph ~ C(subject)*C(session)*C(pipeline)*C(seed)*C(dirs)"
+
+# Without interaction terms
+model_equation = "graph ~ C(subject)+C(session)+C(pipeline)+C(seed)+C(dirs)"
 
 # Filter dataframe to only have a single instance per individual. Simply: pick
 # the one corresponding to MCA sim numero uno
