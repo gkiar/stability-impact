@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 
-from argparse import ArgumentParser
-import pandas as pd
 import numpy as np
-import os.path as op
-import os
-from scipy.optimize import minimize
 import itertools
 
 
