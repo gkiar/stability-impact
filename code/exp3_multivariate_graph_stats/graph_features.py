@@ -27,7 +27,8 @@ def compute_stats(df_fname, dist_mat=None):
              "globaleffic": nxa.global_efficiency,
              "degree": lambda g: dict(nxf.degree(g)).values(),
              "modularity": lambda g:
-                 nntm.consensus_modularity(nx.adj_matrix(g).toarray())[1].mean(),
+                 nntm.consensus_modularity(nx.adj_matrix(g).toarray(),
+                                           seed=42)[1].mean(),
              "assort": nxa.assortativity.degree_assortativity_coefficient,
              "avplength": lambda g: np.mean(connection_length(g, dists=dists)),
              "weight": lambda g: list(nxf.get_edge_attributes(g, 'weight').values()),
