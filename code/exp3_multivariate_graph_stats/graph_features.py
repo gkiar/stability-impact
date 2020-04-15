@@ -10,6 +10,33 @@ import os.path as op
 import numpy as np
 
 
+def sigdig(gs, base=10, masked=False):
+    eps = np.finfo(np.float64).eps
+    if base == 10:
+        log = np.log10
+    elif base == 2:
+        log = np.log2
+    elif base == 'e':
+        log = np.log
+    else:
+        raise ValueError('please pick one of 10, 2, or "e" as your base')
+
+    n = gs.shape[0]
+
+    def c4(n):
+        try:
+            return np.sqrt(2/(n-1))*np.math.gamma(n/2)/np.math.gamma((n-1)/2)
+        except OverflowError:
+            # approximation for cases where n is large:
+            return 1.0 - (.25/n)
+
+    s = np.std(gs, axis=0)/c4(n) + eps
+    mu = np.abs(np.mean(gs, axis=0)) + eps
+
+    sig_gs = -log(s/mu + eps)
+    sig_gs = np.nan_to_num(sig_gs)
+    return sig_gs
+
 def connection_length(g, dists=None):
     assert(dists is not None)
     adj = nx.adj_matrix(g).toarray()
