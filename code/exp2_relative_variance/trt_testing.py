@@ -125,7 +125,7 @@ def main():
     parser.add_argument("--workers", "-n", default=4)
     parser.add_argument("--seed", "-s", default=42)
     parser.add_argument("--iterations", "-r", default=100)
-    results = parser.parse_args())
+    results = parser.parse_args()
 
     df_pyonly = pd.read_hdf(results.h5_perturbed_inputs)
     df_pyonly['Instrumentation'] = "Inputs"
