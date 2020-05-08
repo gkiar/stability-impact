@@ -121,7 +121,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("h5_perturbed_pipeline")
     parser.add_argument("h5_perturbed_inputs")
-    parser.add_argument("h5_discrim_output")
+    parser.add_argument("csv_discrim_output")
     parser.add_argument("--workers", "-n", default=4)
     parser.add_argument("--seed", "-s", default=42)
     parser.add_argument("--iterations", "-r", default=100)
@@ -137,7 +137,7 @@ def main():
                        seed=results.seed, iters=results.iterations)
 
     df_stat = pd.DataFrame.from_dict(stat_list)
-    df_stat.to_hdf(results.h5_discrim_output, "stat")
+    df_stat.to_csv(results.csv_discrim_output)
 
 
 if __name__ == "__main__":
