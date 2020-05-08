@@ -91,7 +91,7 @@ def driver(df_fs, df_pyonly, workers=4, iters=100, seed=42):
             ### Test 3: Multi-direction, 1 session, all sims
             test=3
             qbase = '(subject == "{0}" and session == "{1}")'
-            q = [qbase.format(s[0], s[1]) for s in sets[0]]
+            q = [qbase.format(s[0], s[1]) for s in subses]
             df__ = pd.concat([df_.query(q_) for q_ in q])
             stat_list += pipeline_discrims(df__, hyp=1, test=test,
                                            instrum=instrum, reps=iters,
@@ -123,8 +123,8 @@ def main():
     parser.add_argument("h5_perturbed_inputs")
     parser.add_argument("csv_discrim_output")
     parser.add_argument("--workers", "-n", default=4)
-    parser.add_argument("--seed", "-s", default=42)
-    parser.add_argument("--iterations", "-r", default=100)
+    parser.add_argument("--seed", "-s", type=int, default=42)
+    parser.add_argument("--iterations", "-r", type=int, default=100)
     results = parser.parse_args()
 
     df_pyonly = pd.read_hdf(results.h5_perturbed_inputs)
@@ -137,7 +137,7 @@ def main():
                        seed=results.seed, iters=results.iterations)
 
     df_stat = pd.DataFrame.from_dict(stat_list)
-    df_stat.to_csv(results.csv_discrim_output)
+    df_stat.to_csv(results.csv_discrim_output, index=False)
 
 
 if __name__ == "__main__":
