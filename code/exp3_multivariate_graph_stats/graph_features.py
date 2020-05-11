@@ -40,7 +40,12 @@ def sigdig(gs, base=10, masked=False):
 def connection_length(g, dists=None):
     assert(dists is not None)
     adj = nx.adj_matrix(g).toarray()
-    dist = dists[adj > 0]
+    try:
+        dist = dists[adj > 0]
+    except IndexError:
+        adj_ = np.zeros_like(dist)
+        adj_[0:len(adj), 0:len(adj)] = adj
+        dist = dists[adj > 0]
     return dist[dist > 0]
 
 
