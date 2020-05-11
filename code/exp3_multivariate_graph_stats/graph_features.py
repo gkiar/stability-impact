@@ -43,7 +43,7 @@ def connection_length(g, dists=None):
     try:
         dist = dists[adj > 0]
     except IndexError:
-        adj_ = np.zeros_like(dist)
+        adj_ = np.zeros_like(dists)
         adj_[0:len(adj), 0:len(adj)] = adj
         dist = dists[adj > 0]
     return dist[dist > 0]
