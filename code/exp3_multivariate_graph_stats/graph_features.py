@@ -59,7 +59,7 @@ def compute_stats(df_fname, dist_mat=None):
              "assort": nxa.assortativity.degree_assortativity_coefficient,
              "avplength": lambda g: np.mean(connection_length(g, dists=dists)),
              "weight": lambda g: list(nxf.get_edge_attributes(g, 'weight').values()),
-             "ccoeff": lambda g: list(nxa.clustering(g, weight='weight').values()),
+             "ccoeff": lambda g: list(nxa.clustering(g, weight=None).values()),
              "betweenness": lambda g:
                  list(nxa.betweenness_centrality(g, weight='weight').values()),
              "plength": lambda g: connection_length(g, dists=dists)}
