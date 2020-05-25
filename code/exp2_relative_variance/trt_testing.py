@@ -148,7 +148,7 @@ def hyp2(df, instrum, ssets, iters, workers):
         ### Test 7: Multi-direction, reference execution
         test = 7
         df__ = df_[df_['simulation'] == 'ref']
-        stat_list += pipeline_discrims(df_, idvar=idvar, hyp=hyp, test=test,
+        stat_list += pipeline_discrims(df__, idvar=idvar, hyp=hyp, test=test,
                                        instrum=instrum, reps=iters,
                                        workers=workers)
 
@@ -170,7 +170,7 @@ def hyp2(df, instrum, ssets, iters, workers):
 def hyp3(df, instrum, ssets, iters, workers):
     stat_list = []
     idvar = "directions"
-    ## Hypothesis 2: cross-direction
+    ## Hypothesis 3: cross-direction
     hyp = 3
 
     for sub_ in df['subject'].unique():
@@ -184,6 +184,8 @@ def hyp3(df, instrum, ssets, iters, workers):
             stat_list += pipeline_discrims(df__, idvar=idvar, hyp=hyp,
                                            test=test, instrum=instrum,
                                            reps=iters, workers=workers)
+
+            ### Test 10: 1 sim?
 
             del df__
         del df_
