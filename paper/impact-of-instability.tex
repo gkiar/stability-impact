@@ -26,6 +26,8 @@
 
 \usepackage{lipsum} % Required to insert dummy text. To be removed otherwise
 
+\captionsetup[figure]{justification=justified, singlelinecheck=off} 
+\captionsetup[table]{justification=justified, singlelinecheck=off} 
 %----------------------------------------------------------------------------------------
 %	COLUMNS
 %----------------------------------------------------------------------------------------
@@ -70,7 +72,7 @@ Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
 \affiliation{*\textbf{Corresponding author}: tristan.glatard@concordia.ca} % Corresponding author
 \affiliation{$\dagger$Authors contributed equally}
 
-\Keywords{Stability --- Reproducibility --- Network Neuroscience} % Keywords - if you don't want any simply remove all the text between the curly brackets
+\Keywords{Stability --- Reproducibility --- Network Neuroscience --- Neuroimaging} % Keywords - if you don't want any simply remove all the text between the curly brackets
 \newcommand{\keywordname}{Keywords} % Defines the keywords heading name
 
 %----------------------------------------------------------------------------------------
@@ -103,24 +105,68 @@ workflows.}
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section*{Introduction} % The \section*{} command stops section numbering
-
-\addcontentsline{toc}{section}{Introduction} % Adds this section to the table of contents
+\section*{Introduction}
 
 \lipsum[1-3] % Dummy text
  and some mathematics $\cos\pi=-1$ and $\alpha$ in the text\footnote{And some mathematics $\cos\pi=-1$ and $\alpha$ in the text.}.
 
 %------------------------------------------------
 
-\section{Methods}
+\section*{Results}
+\lipsum[5] % Dummy text
 
-\begin{figure*}[ht]\centering % Using \begin{figure*} makes the figure take up the entire width of the page
-\includegraphics[width=\linewidth]{view}
-\caption{Wide Picture}
-\label{fig:view}
+\begin{figure*}[bth]\centering
+\includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
+\caption{Exploration of perturbation-induced deviations from reference connectomes.
+(\textbf{A}) The absolute deviations, in the form of normalized percent deviation from reference, shown as the
+across MCA series relative to Across Subsample, Across Session, and Aross Subject variations.
+% (\textbf{B}) The correlation between perturbed connectomes and their reference.
+(\textbf{B}) The number of significant decimal digits in each set of connectomes as obtained after evaluating the
+effect of perturbations. In the case of 16, values can be fully relied upon, whereas in the case of 1 only the first
+digit of a value can be trusted. Pipeline- and Input-perturbations are shown on the left and right, respectively.}
+\label{fig:absolute}
 \end{figure*}
 
 \lipsum[4] % Dummy text
+
+\section{Methods}
+
+\begin{table*}[ht]\centering
+\caption{The impact of instabilities evaluated through the separability of the dataset based on simulation, subsample,
+session, and subject (reported as mean~$\pm$~standard deviation Discriminability). While a perfectly separable dataset
+would be represented by a score of $1.0$, the chance performance is $1 /$the number of classes. In the case of
+Hypothesis 1, the evaluation of similarity across individuals, the chance performance is $0.04$. In the case of
+Hypotheses 2 and 3, the evaluation of similarity across sessions or subsamples, respectively, the chance performance is
+$0.5$. The alternative hypothesis, indicating significant separation across classes, is accepted for all experiments,
+with $p < 0.005$.}
+\vspace{5pt}
+\input{figures/tab1_discrim.tex}
+\label{tab:discrim}
+\end{table*}
+
+\lipsum[4] % Dummy text
+
+\begin{figure*}[tb!]\centering
+\includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
+\caption{Distribution and stability assessment of multivariate graph statistics. (\textbf{A}, \textbf{B}) The
+cumulative distribution functions of multivariate statistics across all subjects and perturbation settings. There was
+no significant difference between the distributions in A and B. (\textbf{C}, \textbf{D}) The number of significant
+digits in the first five moments of each statistic across perturbations. The dashed red line refers to the maximum
+possible number of significant digits.}
+\label{fig:multivar}
+\end{figure*}
+
+\lipsum[4] % Dummy text
+
+\begin{figure*}[ht]\centering
+\includegraphics[width=\linewidth]{figures/fig3_bmi_classification.pdf}
+\caption{Observed variability in BMI classification. Training and Test sets were sampled from the MCA-generated dataset
+such that a single observation of each individual was present in each sampling. This sampling was performed 20 times,
+and each dataset was used to train a classifier with each of 2, 5, 10, and N-fold cross validation, and the shown
+metrics are the average across each of these training paradigms. The dashed red lines indicate random-chance
+performance, and the orange dots show the performance using the reference executions.}
+\label{fig:bmi}
+\end{figure*}
 
 \begin{equation}
 \cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
@@ -146,12 +192,6 @@ workflows.}
 
 \lipsum[9] % Dummy text
 
-\begin{figure}[ht]\centering
-\includegraphics[width=\linewidth]{results}
-\caption{In-text Picture}
-\label{fig:results}
-\end{figure}
-
 Reference to Figure \ref{fig:results}.
 
 %------------------------------------------------
@@ -164,21 +204,7 @@ Reference to Figure \ref{fig:results}.
 
 \lipsum[11] % Dummy text
 
-\begin{table}[hbt]
-\caption{Table of Grades}
-\centering
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Name} \\
-\cmidrule(r){1-2}
-First name & Last Name & Grade \\
-\midrule
-John & Doe & $7.5$ \\
-Richard & Miles & $2$ \\
-\bottomrule
-\end{tabular}
-\label{tab:label}
-\end{table}
+\lipsum[15] % Dummy text
 
 \subsubsection{Subsubsection}
 
@@ -224,5 +250,30 @@ So long and thanks for all the fish \cite{Denis2016-wo}.
 \bibliography{impact-of-instability}
 
 %----------------------------------------------------------------------------------------
+\beginsupplement
+
+\clearpage
+\section{Graph Correlation}
+\begin{figure}[ht]\centering
+\includegraphics[width=\linewidth]{figures/figS1_correlation_differences.pdf}
+\caption{The correlation between perturbed connectomes and their reference.}
+\label{fig:bmi}
+\end{figure}
+words
+
+\clearpage
+\section{Univariate Graph Statistics}
+\begin{figure}[ht]\centering
+\includegraphics[width=\linewidth]{figures/figS2_univariate_differences.pdf}
+\caption{Distribution and stability assessment of univariate graph statistics. (\textbf{A}, \textbf{B}) The
+distributions of each computed univariate statistic across all subjects and perturbations for Pipeline and Input
+settings, respectively. There was no significant difference between the distributions in A and B. (\textbf{C},
+\textbf{D}; top) The number of significant decimal digits in each statistic across perturbations, averaged across
+individuals. The dashed red line refers to the maximum possible number of significant digits.
+(\textbf{C}, \textbf{D}; bottom) The percentage of connectomes which were deemed significantly different
+($p < 0.05$) from the others obtained for an individual.}
+\label{sfig:univariate}
+\end{figure}
+stuff
 
 \end{document}
