@@ -105,17 +105,35 @@ workflows.}
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section*{Introduction}
+Brain imaging relies on complex computational methods and processing pipelines. Tools are trusted to perform
+everything from pre-processing tasks (i.e. image reconstruction, denoising, registration, and sample imputation) to
+downstream modeling and statistical evaluation. While these tools undoubtedly undergo rigorous evaluation and quality
+assurance by developers to ensure their validity, in the absence of ground-truth this validity is often evaluated by
+proxy outcome statistics and agreement with previously existing literature and theory. Tests are inevitably performed
+on small datasets, which are known to probe several expected conditions of a tool and are executed on closely managed
+computational infrastructures. While this is practical from an engineering point of view, it results in a lack of
+biological and computational heterogeneity in tool development.
 
-\lipsum[1-3] % Dummy text
- and some mathematics $\cos\pi=-1$ and $\alpha$ in the text\footnote{And some mathematics $\cos\pi=-1$ and $\alpha$ in the text.}.
+The assumption that tools perform equivalently across populations, infrastructures, and other off-target factors (i.e.
+the odd/evenness of voxels in an image~\cite{Glen2018-sg}) is fundamental to their usefulness, but remains largely
+untested. Yet, it is possible to quantify the stability of tools with respect to a variety of these factors through
+both reliability evaluation and perturbation paradigms.
 
-%------------------------------------------------
+Measures such as Intra-Class Correlation (ICC)~\cite{Bartko1966-tl}, Intra-Class Effect Decomposition
+(ICED)~\cite{Brandmaier2018-tk}, and Discriminability~\cite{bridgeford2020elim} have been used to evaluate the
+similarity between observations within test-retest datasets (i.e. scans originating from the same versus different
+individuals). While some combinations of pipeline and dataset have been shown to achieve perfectly reliable estimates,
+for instance in functional or diffusion connectivity, this is often not the case~\cite{bridgeford2020elim,Kiar2018-jt}.
+Importantly, even when this is the case, it does not necessarily imply that the estimates are of high quality (i.e. a
+result simply encoding numeric subject identifiers would achieve perfect reliability, but would not be biologically
+meaningful).
 
-\section*{Results}
-\lipsum[5] % Dummy text
+Recently, the impact of analytic choices on the reliability of results was assessed~\cite{botvinik2020variability}.
+$70$ different teams did their best-effort analysis of the same task-based fMRI analysis. Huge variability was observed
+in the findings and their confidence across research teams. This quantified the impact of scientists and their
+analytical decisions on the reliability of results. 
 
-\begin{figure*}[bth]\centering
+\begin{figure*}[hbt]\centering
 \includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
 \caption{Exploration of perturbation-induced deviations from reference connectomes.
 (\textbf{A}) The absolute deviations, in the form of normalized percent deviation from reference, shown as the
@@ -127,9 +145,63 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \label{fig:absolute}
 \end{figure*}
 
-\lipsum[4] % Dummy text
+On the opposite end of the spectrum, perturbation methods allow for the evaluation of the stability of a tool for
+datasets without repeated measures. This process involves modifying and repeating analyses across theoretically
+unimportant deviations, and allows for quantification of a tool's (in)stability to these changes. A ``one-voxel''
+perturbation approach was used to study the stability of cortical surface estimation pipelines~\cite{Lewis2017-ll}. A
+single voxel was perturbed by 1\% intensity prior to brain-surface extraction  with two different tools and the
+resulting surfaces were compared across the original and perturbed datasets. Both for Gray and White Matter surfaces,
+the two tools showed significant deviations. Another perturbation approach explored the impact of the operating system
+on the Human Connectome Project (HCP) pipelines~\cite{Glasser2013-vf}. Structural segmentations derived using the same
+hardware, dataset, and pipeline package versions showed considerable differences across systems using CentOS6 and
+CentOS7~\cite{Glatard2015-vc,salari2020file}.
 
-\section{Methods}
+While these previous studies shed important light on inconsistencies in results derived by commonly-used pipelines,
+their conclusions are subject to change depending on details irrelevant to the tool, dataset, or task being evaluated,
+such as which researchers are included, which voxel is perturbed, or which operating systems are used, respectively.
+This limits their ability to conclude on the underlying stability of a specific analytical tool evaluated. Classical
+numerical analysis might frame the stability of methods in terms of ``conditioning'',  referring to the sensitivity of
+a system to small perturbations. However, it is difficult to directly apply it in brain imaging as the magnitude and
+application of an ``insignificant perturbation'' is unclear.
+
+An alternative approach for studying instability, Monte Carlo Arithmetic (MCA), involves modifying  mathematical
+operations containing floating-point numbers by adding uniform random noise simulating round-off errors at a given
+precision~\cite{Parker1997-qq}. Not only can this approach be applied arbitrarily across tools, lowering the needed
+level of manual intervention, but also it perturbs pipeline operation by a known and customizable magnitude. A
+preliminary study usedMCA to evaluate the stability of a structural connectome estimation pipeline~\cite{Kiar2020-lb}.
+This method revealed that differences between connectomes generated from a single session of data can be as high as
+cross-subject level variation. While this work evaluated the variability in derived connectomes, the effect of such
+variability on final outcomes of interest to neuroscience is currently unclear.
+
+The present study quantifies the numerical, analytical, and biological implications of instabilities in neuroimaging.
+We accomplish this by evaluating the stability of two pipelines that estimate structural connectomes, instrumented with
+MCA, and characterize the direct and downstream impact of observed instabilities. We perform a direct evaluation of
+stability by looking at the introduced variability in observed graphs and relating this to observed values of
+biological importance such as between subject and between session variability.
+
+The impact on downstream analyses is first explored through curated summary statistics and estimates of their variance
+across perturbations. Then, we perform a neuroscience study on the derived connectomes in which we classify individuals
+with respect to high ($>25$) or low BMI and quantify the relative performance of our model on this task across
+simulations.
+
+Finally we conclude on the impact of induced instabilities on these measures, and make recommendations for future work
+in this area.
+
+%------------------------------------------------
+\section*{Graphs Vary Widely With Perturbations}
+
+Figure~\ref{fig:absolute} shows the observed changes in structural connectivity induced by perturbations using two
+metrics: percent deviation, and number of significant digits. The deviations observed purely across MCA were displayed
+alongside other sources of variability, in order of magnitude, such as: subsampling, variation across sessions, and
+variation across subjects. In both the case of Pipeline Perturbation and Input Perturbation settings, the magnitude of
+percent deviation between pairs of connectomes (Figure~\ref{fig:absolute}A) across each category is consistent with
+this sorting. However, there is a much tighter bound in the distribution of differences in both the cross-MCA and
+cross-subsample cases with Pipeline Perturbations, where deviations rarely reach the level of session or individual
+variations. Connectomes generated with Input Perturbations show considerably more variability, often reaching
+deviations equal to or greater than those observed across individuals or sessions. While both pipelines show similar
+distributions in both perturbation settings, the probabilistic pipeline is more stable for cross-MCA and
+cross-subsample evaluations in the face of Pipeline Perturbations whereas the deterministic is more stable under Input
+Perturbations ($p < 0.0001$ for all; exploratory).
 
 \begin{table*}[ht]\centering
 \caption{The impact of instabilities evaluated through the separability of the dataset based on simulation, subsample,
@@ -144,9 +216,57 @@ with $p < 0.005$.}
 \label{tab:discrim}
 \end{table*}
 
-\lipsum[4] % Dummy text
+The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly follows the
+expected and previously observed trend across groups. While the cross-MCA Pipeline Perturbation evaluations show nearly
+perfect precision (approaching $16$ digits) for many edges, this evaluation uniquely shows considerable drop off in
+performance with the cross-subsample group (average of $< 4$ digits). The combination of this with results presented in
+Figures~\ref{fig:absolute}A suggests that specific edge weights are largely affected by these perturbations while
+macro-scale connectivity is largely unchanged. Connectomes perturbed by Input Perturbations show no more than an
+average of $3$ significant digits across all groups. In the case of both perturbations, cross-individual significance
+does not exceed a single digit per edge, suggesting that groupwise average connectomes should be limited to a single
+digit of precision (i.e. only the order of magnitude of the edge can be relied upon).
 
-\begin{figure*}[tb!]\centering
+The fact that each of these direct comparisons show distinct relationships between pipeline, perturbation mode, and
+data, illustrates the high dependence of stability evaluation upon specific application context.
+
+\section*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
+
+Beyond direct difference on the connectomes, we evaluated the discriminability between groups, to characterize
+quantitatively the impact of perturbations on the separability of the dataset (Table~\ref{tab:discrim}). For
+hypothesis 1, which explores the separability of the dataset with respect to participant labels, an ideal dataset would
+have a discriminability score of $1.0$. In experiment 1.1, that which mimics a typical test-retest scenario, we observe
+that the dataset is separable with a discriminability score of $0.64$ or greater in each of these experiments (all
+statistically significant, $p < 0.005$). Both MCA instrumentations significantly increase the discriminability, and
+therefore reliability, of the dataset in this experiment ($p < 0.001$ for all). This result impactfully suggests the
+utility of both MCA methods for synthesizing more robust and reliable individual estimates of connectivity.
+
+Experiment 1.1 is unsurprisingly the least discriminable test of this hypothesis, as experiments 1.2 and 1.3 rely on
+the same session of data, either distinguished by downsampling or perturbations, respectively. Input Perturbations lead
+to a decrease in the separability of individuals in these experiments, but the reliability still exceeds the
+cross-session case.
+
+Hypothesis 2 considers the separability of connectomes based upon session, rather than subject. In this case,
+performance was computed within-individual and aggregated. An ideal test-retest dataset – one where there is no
+difference between two observations of an individual – would have a discriminability score of $0.5$ in these
+experiments.
+
+The discriminability in both the unperturbed and Perturbed Pipeline settings is $1.0$, meaning that there is a
+significant difference between sessions of data. However, while still significant relative to chance, Input
+Perturbations lead to considerably lower discriminability, reducing the difference between distinct sessions of data.
+This suggests that Input Perturbations reduce session-dependent bias.
+
+Finally, experiment 3.6 evaluates the separability of samples based on subsampling. Similarly to the previous, the
+performance is once again computed through analyzing individual sessions of data and aggregating across sessions and
+individuals, with an ideal score of $0.5$. While this experiment could not be evaluated using reference executions, the
+Pipeline Perturbation performance showed near perfect separation between direction subsamples whereas Input
+Perturbations considerably lower this separability towards chance, similar to as was observed in experiments 2.4 and
+2.5. This is further evidence which suggests that the Input Perturbations may have an application in obtaining more
+robust estimates of individual connectivity, as across each experiment it shows an amplification in meaningful
+differences while also showing a reduction in off-target differences.
+
+\section*{Distributions of Graph Statistics Are Reliable, Individual Statistics Are Not}
+
+\begin{figure*}[bt!]\centering
 \includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
 \caption{Distribution and stability assessment of multivariate graph statistics. (\textbf{A}, \textbf{B}) The
 cumulative distribution functions of multivariate statistics across all subjects and perturbation settings. There was
@@ -156,7 +276,28 @@ possible number of significant digits.}
 \label{fig:multivar}
 \end{figure*}
 
-\lipsum[4] % Dummy text
+Connectomes are often summarized by lower-dimensional statistics more suitable for numerous analytical
+methods~\cite{Rubinov2010-fh}. Figure~\ref{fig:multivar} explores the stability of these graph-theoretical metrics
+computed from the perturbed graphs, including weight, clustering coefficient, path length, betweenness centrality, and
+degree. Due to the variable length of the edgewise statistics, cumulative density functions for each statistic were
+evaluated over a fixed range and the mean density and associated standard error were computed for each bin
+(Figures~\ref{fig:multivar}A and ~\ref{fig:multivar}B), with the distributions' minimum, median, and maximum values
+denoted on each x-axis. There was no significant difference in distributions observed for each statistic across the two
+perturbation settings. The first 5 moments of these statistics within individuals as observed with Pipeline
+Perturbations (Figure~\ref{fig:multivar}C) were stable with more than $10$ significant digits with the exception of
+edge weight when using the deterministic pipeline. In the case of all statistics, the probabilistic pipeline was more
+stable than the deterministic pipeline ($p < 0.0001$; exploratory). In stark contrast, these moments were highly
+unstable in the face of Input Perturbations (Figure~\ref{fig:multivar}D), in which no measure had more than $5$
+significant digits of information, and several moment and statistic pairs had less than a single significant digit,
+such as the variance in edge weight or the kurtosis of betweenness centrality. In general, there was not a strong
+relationship between the order of the moment and its stability. A similar analysis was performed for univariate
+statistics in \sref{supsec:univar}.
+
+The large discrepancy between the stability of individual estimates in these settings versus the similarity of
+aggregated CDFs suggests that while individual estimates are unstable, the comparison between aggregates or groups may
+be considered much more reliable.
+
+\section*{The Strength of Brain-Behaviour Relationships Are Highly Variable}
 
 \begin{figure*}[ht]\centering
 \includegraphics[width=\linewidth]{figures/fig3_bmi_classification.pdf}
@@ -167,6 +308,34 @@ metrics are the average across each of these training paradigms. The dashed red 
 performance, and the orange dots show the performance using the reference executions.}
 \label{fig:bmi}
 \end{figure*}
+
+While the variability of explicit features of connectomes was summarized above, these networks are commonly-used as
+inputs to machine learning models. Here, connectomes were projected into a low dimensional space using PCA and then
+input a logistic regression classifier (Figure~\ref{fig:bmi}). The number of principal components was selected as the
+minimum number of components required to capture 90\% of the variance in the reference set; this resulted in $20$
+components. Using the reference performance, i.e. that using only unperturbed graphs (Figure~\ref{fig:bmi}; orange
+overlay), the classification accuracies were $0.635$ and $0.628$, and the F1 scores were $0.636$ and $0.630$ for data
+derived using the deterministic and probabilistic pipelines, respectively, with the average explained variance at 90\%
+in both cases. The random chance performance for these evaluations measures were $0.521$ and $0.519$, respectively
+(Figure~\ref{fig:bmi}; dashed red line).
+
+When performing this analysis using sampled instances of the perturbed dataset across both pipelines and perturbation
+methods, the portion of explained variance in the sample with $20$ components ranged from $0.886$ -– $0.978$. The
+classification accuracy ranged from $0.520$ – $0.716$ and the F1 score ranged from $0.510$ -– $0.725$. These results
+range from at or below random chance performance, to considerable accuracy that outperforms that obtained using the
+reference dataset.
+
+\section*{Discussion}
+\lipsum[2]
+
+\section{Methods}
+
+
+\lipsum[4] % Dummy text
+
+
+\lipsum[4] % Dummy text
+
 
 \begin{equation}
 \cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
@@ -254,15 +423,47 @@ So long and thanks for all the fish \cite{Denis2016-wo}.
 
 \clearpage
 \section{Graph Correlation}
+\label{supsec:correlation}
+The correlations between observed graphs (Figure 1B) across each grouping follow the same trend to percent deviation.
+However, notably different from percent deviation, there is no significant difference in the correlations between
+Pipeline or Input instrumentations. By this measure, the probabilistic pipeline is more stable in all cross-MCA and
+cross-directions except for the combination of Input Perturbation and cross-MCA (p < 0.0001 for all; exploratory).
+
 \begin{figure}[ht]\centering
 \includegraphics[width=\linewidth]{figures/figS1_correlation_differences.pdf}
 \caption{The correlation between perturbed connectomes and their reference.}
-\label{fig:bmi}
+\label{fig:correlation}
 \end{figure}
-words
 
 \clearpage
 \section{Univariate Graph Statistics}
+\label{supsec:univar}
+
+Figure 2 explores the stability of these graph-theoretical metrics computed from the perturbed graphs, including
+modularity, global efficiency, assortativity, average path length, and edge count. When aggregated across individuals
+and perturbations, the distributions of these statistics (Figures 2A and 2B) show no significant differences between
+perturbation methods for either deterministic or probabilistic pipelines. However, when quantifying the stability of
+these measures across connectomes derived from a single session of data, the two perturbation methods show considerable
+differences. The number of significant digits in univariate statistics for Pipeline Perturbation instrumented
+connectome generation exceeded 11 digits for all measures except modularity, which contained more than 4 significant
+digits of information (Figure 2C). When detecting outliers from the distributions of observed statistics for a given
+session, the false positive rate (using a threshold of p = 0.05) was approximately 2\% for all statistics with the
+exception of modularity which again was less stable with an approximately 10\% false positive rate. The probabilistic
+pipeline is significantly more stable than the deterministic pipeline (p < 0.0001; exploratory) for all features
+except modularity. When similarly evaluating these features from connectomes generated in the Input Perturbation
+setting, no statistic was stable with more than 3 significant digits or a false positive rate lower than nearly 6\%
+(Figure 2D). The deterministic pipeline was more stable than the probabilistic pipeline in this setting (p < 0.0001;
+exploratory).
+
+Two notable differences between the two perturbation methods are, first, the uniformity in the stability of the
+statistics, and second, the dramatic decline in stability of individual statistics in the Input Perturbation setting
+despite the consistency in the overall distribution of values. It is unclear at present if the discrepancy between the
+stability of modularity in the Pipeline Perturbation context versus the other statistics suggests the implementation of
+this measure is the source of instability or if it is implicit to the measure itself. The dramatic decline in the
+stability of features derived from Input Perturbed graphs despite no difference in their overall distribution both
+shows that while individual estimates may be unstable the comparison between aggregates or groups may be considered
+much more reliable.
+
 \begin{figure}[ht]\centering
 \includegraphics[width=\linewidth]{figures/figS2_univariate_differences.pdf}
 \caption{Distribution and stability assessment of univariate graph statistics. (\textbf{A}, \textbf{B}) The
@@ -274,6 +475,6 @@ individuals. The dashed red line refers to the maximum possible number of signif
 ($p < 0.05$) from the others obtained for an individual.}
 \label{sfig:univariate}
 \end{figure}
-stuff
+
 
 \end{document}

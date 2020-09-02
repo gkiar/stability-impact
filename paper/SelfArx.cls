@@ -39,7 +39,7 @@
 
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{amsmath,amsfonts,amssymb}
-\RequirePackage{graphicx,xcolor}
+\RequirePackage{graphicx,xcolor,colortbl}
 \RequirePackage{booktabs}
 
 %----------------------------------------------------------------------
@@ -183,6 +183,7 @@ justification=raggedright]{caption}
         \setcounter{figure}{0}
         \renewcommand{\thefigure}{S\arabic{figure}}%
 }
+\newcommand{\sref}[1]{Supplemental Section~\ref{#1}}
 %----------------------------------------------------------------------
 %	LIST CONTROL
 %----------------------------------------------------------------------  
