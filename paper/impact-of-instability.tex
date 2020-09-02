@@ -81,16 +81,17 @@ Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
 
 \Abstract{The analysis of brain-imaging data requires complex and often non-linear transformations to support findings
 on brain function or pathologies. And yet, recent work has shown that variability in the choices that one makes when
-analyzing data can lead to quantitatively and qualitatively different results, endangering the trust in conclusions.
+analyzing data can lead to quantitatively and qualitatively different results, endangering the trust in
+conclusions~\cite{Glen2018-sg,botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file,Kiar2020-lb}.
 Even within a given method or analytical technique, numerical instabilities could compromise findings. We instrumented
-a structural-connectome estimation pipeline with Monte Carlo Arithmetic and evaluated the stability of the derived
-connectomes, their statistics, and the impact on a downstream analysis. The stability of results was found to be highly
-dependent upon which features of the connectomes were evaluated, and ranged from perfectly stable (i.e. no observed
-variability across executions) to highly unstable (i.e. the results contained no trustworthy significant information).
-The extreme range and variability in results presented here could severely hamper our understanding of brain function
-in brain-imaging studies. It also highlights both the potential impact of basic analytical choices and measure on the
-reliability of downstream analyses, and the necessity of stability evaluation as a core component of typical analytical
-workflows.}
+a structural-connectome estimation pipeline with Monte Carlo Arithmetic~\cite{Parker1997-qq,Denis2016-wo} and evaluated
+the stability of the derived connectomes, their features~\cite{Rubinov2010-fh}, and the impact on a downstream
+analysis~\cite{Park2015-uj,Gupta2015-ap}. The stability of results was found to be highly dependent upon which features
+of the connectomes were evaluated, and ranged from perfectly stable (i.e. no observed variability across executions) to
+highly unstable (i.e. the results contained no trustworthy significant information). The extreme range and variability
+in results presented here could severely hamper our understanding of brain function in brain-imaging studies. It also
+highlights both the potential impact of basic analytical choices and measure on the reliability of downstream analyses,
+and the necessity of stability evaluation as a core component of typical analytical workflows.}
 
 %----------------------------------------------------------------------------------------
 

@@ -41,6 +41,7 @@
 \RequirePackage{amsmath,amsfonts,amssymb}
 \RequirePackage{graphicx,xcolor,colortbl}
 \RequirePackage{booktabs}
+\usepackage{cite}
 
 %----------------------------------------------------------------------
 %	MARGINS	
