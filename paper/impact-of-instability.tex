@@ -106,20 +106,30 @@ and the necessity of stability evaluation as a core component of typical analyti
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-Brain imaging relies on complex computational methods and processing pipelines. Tools are trusted to perform
-everything from pre-processing tasks (i.e. image reconstruction, denoising, registration, and sample imputation) to
-downstream modeling and statistical evaluation. {\color{red} statement about how much of our understanding of brain
-structure and function relies on these methods and measures thereof.} 
+The modelling of brain networks, called connectomics, has shaped our understanding of the structure and function
+of the brain across a variety of organisms and scales over the last
+decade~\cite{behrens2012human,xia2016connectomic,morgan2013not,van2016comparative,Rubinov2010-fh}.
+In humans, these wiring diagrams are obtained \textit{in vivo} through Magnetic Resonance Imaging (MRI), and show
+promise towards identifying biomarkers of disease. This can not only improve understanding of so-called
+``connectopathies'', such as Alzhiemer's Disease and Schizophrenia, but potentially pave the way for
+therapeutics, as well~\cite{fornito2015connectomics,deco2014great,xie2012mapping,filippi2013assessment,van2014brain}.
 
-While these tools undoubtedly undergo rigorous evaluation and quality
-assurance by developers to ensure their validity, in the absence of ground-truth this validity is often evaluated by
-measures of reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome
-statistics, or agreement with previously existing literature and theory. Tests are inevitably performed on small
-datasets, which are known to probe several expected conditions of a tool or analysis area. While this is practical from
-an engineering point of view, it results in a lack of biological, and therefore numerical, heterogeneity in scientific
-tool development. Importantly, this means that tools and their outputs are not necessarily of known quality, and is no
-guarantee that various supposedly-equivalent processing choices will lead scientists to the same
-results~\cite{botvinik2020variability}.
+However, the analysis of brain imaging data relies on complex computational methods and software pipelines. Tools are
+trusted to perform everything from pre-processing tasks (i.e. image reconstruction, denoising, and alignment) to
+downstream modelling and statistical evaluation. While these tools undoubtedly undergo rigorous evaluation, in the
+absence of ground-truth this is often evaluated on bespoke datasets through measures of
+reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome statistics, or
+agreement with previously existing literature and theory. Importantly, this means that tools are not necessarily of
+known or consistent quality, and it is not uncommon that equivalent experiments may lead scientists to the diverging
+conclusions, calling into question the stability of these
+tools~\cite{botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file}.
+
+The present study perturbed a series brian imaging studies using structural connectomes and explored the biological
+implications of observed instabilities in the results. We accomplished this through the use of Monte Carlo Arithmetic
+(MCA)~\cite{Parker1997-qq}, a technique which enables characterization of the sensitivity of a system to small
+perturbations. We explored the impact of perturbations through the direct comparision of connectomes, the consistency
+of their features, and their eventual application in a neuroscience study. Finally we conclude on the consequences of
+the observed instabilities and make recommendations for future work in this area.
 
 \begin{figure*}[hbt]\centering
 \includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
@@ -133,47 +143,6 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \label{fig:absolute}
 \end{figure*}
 
-On the opposite end of the spectrum, perturbation methods allow for the evaluation of the stability of a tool for
-datasets without repeated measures. This process involves modifying and repeating analyses across theoretically
-unimportant deviations, and allows for quantification of a tool's (in)stability to these changes. A ``one-voxel''
-perturbation approach was used to study the stability of cortical surface estimation pipelines~\cite{Lewis2017-ll}. A
-single voxel was perturbed by 1\% intensity prior to brain-surface extraction  with two different tools and the
-resulting surfaces were compared across the original and perturbed datasets. Both for Gray and White Matter surfaces,
-the two tools showed significant deviations. Another perturbation approach explored the impact of the operating system
-on the Human Connectome Project (HCP) pipelines~\cite{Glasser2013-vf}. Structural segmentations derived using the same
-hardware, dataset, and pipeline package versions showed considerable differences across systems using CentOS6 and
-CentOS7~\cite{Glatard2015-vc,salari2020file}.
-
-While these previous studies shed important light on inconsistencies in results derived by commonly-used pipelines,
-their conclusions are subject to change depending on details irrelevant to the tool, dataset, or task being evaluated,
-such as which researchers are included, which voxel is perturbed, or which operating systems are used, respectively.
-This limits their ability to conclude on the underlying stability of a specific analytical tool evaluated. Classical
-numerical analysis might frame the stability of methods in terms of ``conditioning'',  referring to the sensitivity of
-a system to small perturbations. However, it is difficult to directly apply it in brain imaging as the magnitude and
-application of an ``insignificant perturbation'' is unclear.
-
-An alternative approach for studying instability, Monte Carlo Arithmetic (MCA), involves modifying  mathematical
-operations containing floating-point numbers by adding uniform random noise simulating round-off errors at a given
-precision~\cite{Parker1997-qq}. Not only can this approach be applied arbitrarily across tools, lowering the needed
-level of manual intervention, but also it perturbs pipeline operation by a known and customizable magnitude. A
-preliminary study usedMCA to evaluate the stability of a structural connectome estimation pipeline~\cite{Kiar2020-lb}.
-This method revealed that differences between connectomes generated from a single session of data can be as high as
-cross-subject level variation. While this work evaluated the variability in derived connectomes, the effect of such
-variability on final outcomes of interest to neuroscience is currently unclear.
-
-The present study quantifies the numerical, analytical, and biological implications of instabilities in neuroimaging.
-We accomplish this by evaluating the stability of two pipelines that estimate structural connectomes, instrumented with
-MCA, and characterize the direct and downstream impact of observed instabilities. We perform a direct evaluation of
-stability by looking at the introduced variability in observed graphs and relating this to observed values of
-biological importance such as between subject and between session variability.
-
-The impact on downstream analyses is first explored through curated summary statistics and estimates of their variance
-across perturbations. Then, we perform a neuroscience study on the derived connectomes in which we classify individuals
-with respect to high ($>25$) or low BMI and quantify the relative performance of our model on this task across
-simulations.
-
-Finally we conclude on the impact of induced instabilities on these measures, and make recommendations for future work
-in this area.
 
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
@@ -333,6 +302,16 @@ reference dataset.
 \item Second item in a list
 \item Third item in a list
 \end{itemize}
+
+\subsection{Discussion}
+{\color{orange}Notes\\\\
+You could mention that instabilities affect not only the topology, but the geometry of reconstructed networks.
+
+It means that we are, as a field, overconfident in numerical stability, and that in a typical setting this would lead
+to wrong conclusions. Or am I over-stating it? Because if that's the case, it needs to be unequivocally stated here.
+And in the abstract. And maybe also in the title of the article. this amount of numerical noise is to be expected in
+typical settings, not only in MCA. Is that correct? And that has implications for inferences in the typical setting.
+}
 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
