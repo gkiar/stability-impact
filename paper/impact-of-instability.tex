@@ -108,31 +108,18 @@ and the necessity of stability evaluation as a core component of typical analyti
 
 Brain imaging relies on complex computational methods and processing pipelines. Tools are trusted to perform
 everything from pre-processing tasks (i.e. image reconstruction, denoising, registration, and sample imputation) to
-downstream modeling and statistical evaluation. While these tools undoubtedly undergo rigorous evaluation and quality
+downstream modeling and statistical evaluation. {\color{red} statement about how much of our understanding of brain
+structure and function relies on these methods and measures thereof.} 
+
+While these tools undoubtedly undergo rigorous evaluation and quality
 assurance by developers to ensure their validity, in the absence of ground-truth this validity is often evaluated by
-proxy outcome statistics and agreement with previously existing literature and theory. Tests are inevitably performed
-on small datasets, which are known to probe several expected conditions of a tool and are executed on closely managed
-computational infrastructures. While this is practical from an engineering point of view, it results in a lack of
-biological and computational heterogeneity in tool development.
-
-The assumption that tools perform equivalently across populations, infrastructures, and other off-target factors (i.e.
-the odd/evenness of voxels in an image~\cite{Glen2018-sg}) is fundamental to their usefulness, but remains largely
-untested. Yet, it is possible to quantify the stability of tools with respect to a variety of these factors through
-both reliability evaluation and perturbation paradigms.
-
-Measures such as Intra-Class Correlation (ICC)~\cite{Bartko1966-tl}, Intra-Class Effect Decomposition
-(ICED)~\cite{Brandmaier2018-tk}, and Discriminability~\cite{bridgeford2020elim} have been used to evaluate the
-similarity between observations within test-retest datasets (i.e. scans originating from the same versus different
-individuals). While some combinations of pipeline and dataset have been shown to achieve perfectly reliable estimates,
-for instance in functional or diffusion connectivity, this is often not the case~\cite{bridgeford2020elim,Kiar2018-jt}.
-Importantly, even when this is the case, it does not necessarily imply that the estimates are of high quality (i.e. a
-result simply encoding numeric subject identifiers would achieve perfect reliability, but would not be biologically
-meaningful).
-
-Recently, the impact of analytic choices on the reliability of results was assessed~\cite{botvinik2020variability}.
-$70$ different teams did their best-effort analysis of the same task-based fMRI analysis. Huge variability was observed
-in the findings and their confidence across research teams. This quantified the impact of scientists and their
-analytical decisions on the reliability of results. 
+measures of reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome
+statistics, or agreement with previously existing literature and theory. Tests are inevitably performed on small
+datasets, which are known to probe several expected conditions of a tool or analysis area. While this is practical from
+an engineering point of view, it results in a lack of biological, and therefore numerical, heterogeneity in scientific
+tool development. Importantly, this means that tools and their outputs are not necessarily of known quality, and is no
+guarantee that various supposedly-equivalent processing choices will lead scientists to the same
+results~\cite{botvinik2020variability}.
 
 \begin{figure*}[hbt]\centering
 \includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
@@ -189,7 +176,7 @@ Finally we conclude on the impact of induced instabilities on these measures, an
 in this area.
 
 %------------------------------------------------
-\section*{Graphs Vary Widely With Perturbations}
+\subsection*{Graphs Vary Widely With Perturbations}
 
 Figure~\ref{fig:absolute} shows the observed changes in structural connectivity induced by perturbations using two
 metrics: percent deviation, and number of significant digits. The deviations observed purely across MCA were displayed
@@ -230,7 +217,7 @@ digit of precision (i.e. only the order of magnitude of the edge can be relied u
 The fact that each of these direct comparisons show distinct relationships between pipeline, perturbation mode, and
 data, illustrates the high dependence of stability evaluation upon specific application context.
 
-\section*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
+\subsection*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
 
 Beyond direct difference on the connectomes, we evaluated the discriminability between groups, to characterize
 quantitatively the impact of perturbations on the separability of the dataset (Table~\ref{tab:discrim}). For
@@ -265,7 +252,7 @@ Perturbations considerably lower this separability towards chance, similar to as
 robust estimates of individual connectivity, as across each experiment it shows an amplification in meaningful
 differences while also showing a reduction in off-target differences.
 
-\section*{Distributions of Graph Statistics Are Reliable, Individual Statistics Are Not}
+\subsection*{Distributions of Graph Statistics Are Reliable, Individual Statistics Are Not}
 
 \begin{figure*}[bt!]\centering
 \includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
@@ -298,7 +285,7 @@ The large discrepancy between the stability of individual estimates in these set
 aggregated CDFs suggests that while individual estimates are unstable, the comparison between aggregates or groups may
 be considered much more reliable.
 
-\section*{The Strength of Brain-Behaviour Relationships Are Highly Variable}
+\subsection*{The Strength of Brain-Behaviour Relationships is Eroded}
 
 \begin{figure*}[ht]\centering
 \includegraphics[width=\linewidth]{figures/fig3_bmi_classification.pdf}
