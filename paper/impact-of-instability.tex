@@ -131,21 +131,27 @@ perturbations. We explored the impact of perturbations through the direct compar
 of their features, and their eventual application in a neuroscience study. Finally we conclude on the consequences of
 the observed instabilities and make recommendations for future work in this area.
 
+%------------------------------------------------
+\subsection*{Graphs Vary Widely With Perturbations}
 \begin{figure*}[hbt]\centering
 \includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
 \caption{Exploration of perturbation-induced deviations from reference connectomes.
 (\textbf{A}) The absolute deviations, in the form of normalized percent deviation from reference, shown as the
 across MCA series relative to Across Subsample, Across Session, and Aross Subject variations.
-% (\textbf{B}) The correlation between perturbed connectomes and their reference.
 (\textbf{B}) The number of significant decimal digits in each set of connectomes as obtained after evaluating the
 effect of perturbations. In the case of 16, values can be fully relied upon, whereas in the case of 1 only the first
 digit of a value can be trusted. Pipeline- and Input-perturbations are shown on the left and right, respectively.}
 \label{fig:absolute}
 \end{figure*}
 
-
-%------------------------------------------------
-\subsection*{Graphs Vary Widely With Perturbations}
+\begin{itemize}
+\item describe how many graphs were estimated and how they were generated
+\item define the groupings/comparisons made
+\item describe and report on percent deviation result
+\item describe and report on significant digit result
+\item summarize take-home message (input perturbations make big differences, AND edge weights are largely affected by
+these perturbations, though macro-scale connectivity is largely unchanged)
+\end{itemize}
 
 Figure~\ref{fig:absolute} shows the observed changes in structural connectivity induced by perturbations using two
 metrics: percent deviation, and number of significant digits. The deviations observed purely across MCA were displayed
@@ -160,6 +166,17 @@ distributions in both perturbation settings, the probabilistic pipeline is more 
 cross-subsample evaluations in the face of Pipeline Perturbations whereas the deterministic is more stable under Input
 Perturbations ($p < 0.0001$ for all; exploratory).
 
+The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly follows the
+expected and previously observed trend across groups. While the cross-MCA Pipeline Perturbation evaluations show nearly
+perfect precision (approaching $16$ digits) for many edges, this evaluation uniquely shows considerable drop off in
+performance with the cross-subsample group (average of $< 4$ digits). The combination of this with results presented in
+Figures~\ref{fig:absolute}A suggests that specific edge weights are largely affected by these perturbations while
+macro-scale connectivity is largely unchanged. Connectomes perturbed by Input Perturbations show no more than an
+average of $3$ significant digits across all groups. In the case of both perturbations, cross-individual significance
+does not exceed a single digit per edge, suggesting that groupwise average connectomes should be limited to a single
+digit of precision (i.e. only the order of magnitude of the edge can be relied upon).
+
+\subsection*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
 \begin{table*}[ht]\centering
 \caption{The impact of instabilities evaluated through the separability of the dataset based on simulation, subsample,
 session, and subject (reported as mean~$\pm$~standard deviation Discriminability). While a perfectly separable dataset
@@ -173,20 +190,13 @@ with $p < 0.005$.}
 \label{tab:discrim}
 \end{table*}
 
-The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly follows the
-expected and previously observed trend across groups. While the cross-MCA Pipeline Perturbation evaluations show nearly
-perfect precision (approaching $16$ digits) for many edges, this evaluation uniquely shows considerable drop off in
-performance with the cross-subsample group (average of $< 4$ digits). The combination of this with results presented in
-Figures~\ref{fig:absolute}A suggests that specific edge weights are largely affected by these perturbations while
-macro-scale connectivity is largely unchanged. Connectomes perturbed by Input Perturbations show no more than an
-average of $3$ significant digits across all groups. In the case of both perturbations, cross-individual significance
-does not exceed a single digit per edge, suggesting that groupwise average connectomes should be limited to a single
-digit of precision (i.e. only the order of magnitude of the edge can be relied upon).
-
-The fact that each of these direct comparisons show distinct relationships between pipeline, perturbation mode, and
-data, illustrates the high dependence of stability evaluation upon specific application context.
-
-\subsection*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
+\begin{itemize}
+\item explain discriminability as a measure of reliability
+\item explain hypothesis 1, result, and impact (MCA improves reliability)
+\item explain hypothesis 2, result, and impact (MCA reduces session-noise)
+\item explain hypothesis 3, result, and impact (MCA reduces subsample-noise)
+\item summarize gross impact (the reliability of brain imaging datasets is improved through the adoption of MCA)
+\end{itemize}
 
 Beyond direct difference on the connectomes, we evaluated the discriminability between groups, to characterize
 quantitatively the impact of perturbations on the separability of the dataset (Table~\ref{tab:discrim}). For
@@ -233,6 +243,13 @@ possible number of significant digits.}
 \label{fig:multivar}
 \end{figure*}
 
+\begin{itemize}
+\item define measures and cite their common use
+\item define comparison of distributions and discuss implication (distributions are stable)
+\item define comparison of moments (individual statistics are unstable)
+\item summarize impact (group-wise distributions should be relied upon rather than individual differences)
+\end{itemize}
+
 Connectomes are often summarized by lower-dimensional statistics more suitable for numerous analytical
 methods~\cite{Rubinov2010-fh}. Figure~\ref{fig:multivar} explores the stability of these graph-theoretical metrics
 computed from the perturbed graphs, including weight, clustering coefficient, path length, betweenness centrality, and
@@ -266,6 +283,13 @@ performance, and the orange dots show the performance using the reference execut
 \label{fig:bmi}
 \end{figure*}
 
+\begin{itemize}
+\item define classification task and cite justification
+\item state reference performance and distribution of perturbed performances
+\item summarize impact (the strength of biological signal is highly unstable and erodes confidence in models of brain
+behaviour relationships)
+\end{itemize}
+
 While the variability of explicit features of connectomes was summarized above, these networks are commonly-used as
 inputs to machine learning models. Here, connectomes were projected into a low dimensional space using PCA and then
 input a logistic regression classifier (Figure~\ref{fig:bmi}). The number of principal components was selected as the
@@ -282,28 +306,9 @@ classification accuracy ranged from $0.520$ – $0.716$ and the F1 score ranged 
 range from at or below random chance performance, to considerable accuracy that outperforms that obtained using the
 reference dataset.
 
-\begin{equation}
-\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
-\label{eq:refname2}
-\end{equation}
+\subsection*{Discussion}
 
-\lipsum[5] % Dummy text
 
-\begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{enumerate}
-
-\lipsum[14] % Dummy text
-
-\begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{itemize}
-
-\subsection{Discussion}
 {\color{orange}Notes\\\\
 You could mention that instabilities affect not only the topology, but the geometry of reconstructed networks.
 
@@ -318,10 +323,29 @@ typical settings, not only in MCA. Is that correct? And that has implications fo
 %----------------------------------------------------------------------------------------
 \phantomsection
 \bibliographystyle{IEEEtran}
-\bibliography{impact-of-instability}
+{\footnotesize \bibliography{impact-of-instability}}
 
 \section*{Methods}
-\lipsum[10]
+\begin{equation}
+\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
+\label{eq:refname2}
+\end{equation}
+
+\lipsum[10] % Dummy text
+
+\begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
+\item First item in a list
+\item Second item in a list
+\item Third item in a list
+\end{enumerate}
+
+\lipsum[14] % Dummy text
+
+\begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
+\item First item in a list
+\item Second item in a list
+\item Third item in a list
+\end{itemize}
 
 %------------------------------------------------
 \phantomsection
