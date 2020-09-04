@@ -61,7 +61,7 @@
 
 \Authors{Gregory Kiar\textsuperscript{1}, Yohan Chatelain\textsuperscript{2}, Pablo de Oliveira Castro\textsuperscript{3},
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
-Bratislav Misic\textsuperscript{1}, Tristan Glatard\textsuperscript{2*$\dagger$},
+Bratislav Misic\textsuperscript{1}, Tristan Glatard\textsuperscript{2$\dagger$},
 Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
 \affiliation{\textsuperscript{1}\textit{Montréal Neurological Institute, McGill University, Montréal, QC, Canada}} % Author affiliation
 \affiliation{\textsuperscript{2}\textit{Department of Computer Science and Software Engineering, Concordia University, Montréal, QC, Canada}} % Author affiliation
@@ -69,7 +69,6 @@ Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
 \affiliation{\textsuperscript{4}\textit{Exascale Computing Lab, Intel, Paris, France}} % Author affiliation
 \affiliation{\textsuperscript{5}\textit{Department of Psychology and eScience Institute, University of Washington, Seattle, WA, USA}} % Author affiliation
 \affiliation{\textsuperscript{6}\textit{Parietal project-team, INRIA Saclay-ile de France, France}} % Author affiliation
-\affiliation{*\textbf{Corresponding author}: tristan.glatard@concordia.ca} % Corresponding author
 \affiliation{$\dagger$Authors contributed equally}
 
 \Keywords{Stability --- Reproducibility --- Network Neuroscience --- Neuroimaging} % Keywords - if you don't want any simply remove all the text between the curly brackets
@@ -82,16 +81,18 @@ Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
 \Abstract{The analysis of brain-imaging data requires complex and often non-linear transformations to support findings
 on brain function or pathologies. And yet, recent work has shown that variability in the choices that one makes when
 analyzing data can lead to quantitatively and qualitatively different results, endangering the trust in
-conclusions~\cite{Glen2018-sg,botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file,Kiar2020-lb}.
-Even within a given method or analytical technique, numerical instabilities could compromise findings. We instrumented
-a structural-connectome estimation pipeline with Monte Carlo Arithmetic~\cite{Parker1997-qq,Denis2016-wo} and evaluated
-the stability of the derived connectomes, their features~\cite{Rubinov2010-fh}, and the impact on a downstream
-analysis~\cite{Park2015-uj,Gupta2015-ap}. The stability of results was found to be highly dependent upon which features
-of the connectomes were evaluated, and ranged from perfectly stable (i.e. no observed variability across executions) to
-highly unstable (i.e. the results contained no trustworthy significant information). The extreme range and variability
-in results presented here could severely hamper our understanding of brain function in brain-imaging studies. It also
-highlights both the potential impact of basic analytical choices and measures on the reliability of downstream
-analyses, as well as the necessity of stability evaluation as a core component of typical analytical workflows.}
+conclusions~\cite{Glen2018-sg,botvinik2020variability,bennett2009neural,eklund2016cluster}. Even within a given method
+or analytical technique, numerical instabilities could compromise
+findings~\cite{Kiar2020-lb,salari2020file,Lewis2017-ll,Glatard2015-vc}. We instrumented a structural-connectome
+estimation pipeline with Monte Carlo Arithmetic~\cite{Parker1997-qq,Denis2016-wo}, a technique to introduce random
+noise in floating-point computations, and evaluated the stability of the derived connectomes, their
+features~\cite{Betzel2018-eo,Rubinov2010-fh}, and the impact on a downstream analysis~\cite{Park2015-uj,Gupta2015-ap}.
+The stability of results was found to be highly dependent upon which features of the connectomes were evaluated, and
+ranged from perfectly stable (i.e. no observed variability across executions) to highly unstable (i.e. the results
+contained no trustworthy significant information). The extreme range and variability in results presented here could
+severely hamper our understanding of brain function in brain-imaging studies. However, it also highlights potential
+paths forward, such leveraging this variance to reduce bias in estimates of brain connectivity. This paper demonstrates
+that stability evaluations are necessary as a core component of typical analytical workflows.}
 
 %----------------------------------------------------------------------------------------
 
@@ -108,28 +109,30 @@ analyses, as well as the necessity of stability evaluation as a core component o
 
 The modelling of brain networks, called connectomics, has shaped our understanding of the structure and function
 of the brain across a variety of organisms and scales over the last
-decade~\cite{behrens2012human,xia2016connectomic,morgan2013not,van2016comparative,Rubinov2010-fh}.
+decade~\cite{behrens2012human,xia2016connectomic,morgan2013not,van2016comparative,Rubinov2010-fh,Dubois2016-yr}.
 In humans, these wiring diagrams are obtained \textit{in vivo} through Magnetic Resonance Imaging (MRI), and show
 promise towards identifying biomarkers of disease. This can not only improve understanding of so-called
 ``connectopathies'', such as Alzhiemer's Disease and Schizophrenia, but potentially pave the way for
-therapeutics, as well~\cite{fornito2015connectomics,deco2014great,xie2012mapping,filippi2013assessment,van2014brain}.
+therapeutics~\cite{fornito2015connectomics,deco2014great,xie2012mapping,filippi2013assessment,van2014brain}.
 
 However, the analysis of brain imaging data relies on complex computational methods and software pipelines. Tools are
-trusted to perform everything from pre-processing tasks (i.e. image reconstruction, denoising, and alignment) to
-downstream modelling and statistical evaluation. While these tools undoubtedly undergo rigorous evaluation on bespoke
-datasets, in the absence of ground-truth this is often evaluated through measures of
-reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome statistics, or
-agreement with previously existing literature and theory. Importantly, this means that tools are not necessarily of
-known or consistent quality, and it is not uncommon that equivalent experiments may lead scientists to the diverging
-conclusions, calling into question the stability of these
-tools~\cite{botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file}.
+trusted to perform everything from pre-processing tasks to downstream statistical evaluation. While these tools
+undoubtedly undergo rigorous evaluation on bespoke datasets, in the absence of ground-truth this is often evaluated
+through measures of reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome
+statistics, or agreement with existing theory. Importantly, this means that tools are not necessarily of known or
+consistent quality, and it is not uncommon that equivalent experiments may lead to diverging
+conclusions~\cite{botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file}. While many scientific
+disciplines suffer from a lack of reproducibility~\cite{baker20161}, this was recently explored in brain imaging by a
+$70$ team consortium which performed equivalent analyses and found widely inconsistent
+results~\cite{botvinik2020variability}.
 
-The present study perturbed a series brain imaging studies using structural connectomes and explored the biological
-implications of observed instabilities in the results. We accomplished this through the use of Monte Carlo Arithmetic
-(MCA)~\cite{Parker1997-qq}, a technique which enables characterization of the sensitivity of a system to small
-perturbations. We explored the impact of perturbations through the direct comparision of connectomes, the consistency
-of their features, and their eventual application in a neuroscience study. Finally we conclude on the consequences of
-the observed instabilities and make recommendations for future work in this area.
+The present study approached evaluating reproducibility from a systemic perspective in which a series brain imaging
+studies were numerically perturbed and the biological implications of the observed instabilities were quantified. We
+accomplished this through the use of Monte Carlo Arithmetic (MCA)~\cite{Parker1997-qq}, a technique which enables
+characterization of the sensitivity of a system to small perturbations. We explored the impact of perturbations through
+the direct comparision of structural connectomes, the consistency of their features, and their eventual application in
+a neuroscience study. Finally we conclude on the consequences of the observed instabilities and make recommendations
+for future work in this area.
 
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
@@ -144,37 +147,32 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \label{fig:absolute}
 \end{figure*}
 
-\begin{itemize}
-\item describe how many graphs were estimated and how they were generated
-\item define the groupings/comparisons made
-\item describe and report on percent deviation result
-\item describe and report on significant digit result
-\item summarize take-home message (input perturbations make big differences, AND edge weights are largely affected by
-these perturbations, though macro-scale connectivity is largely unchanged)
-\end{itemize}
+A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to contain
+$25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting in four
+collections per individual. Structural connectomes were generated with canonical deterministic and probabilistic
+pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, mimicking computational noise at either the
+inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines were sampled $20$ times per
+collection and once without perturbations, resulting in a total of $4,200$ connectomes.
 
-Figure~\ref{fig:absolute} shows the observed changes in structural connectivity induced by perturbations using two
-metrics: percent deviation, and number of significant digits. The deviations observed purely across MCA were displayed
-alongside other sources of variability, in order of magnitude, such as: subsampling, variation across sessions, and
-variation across subjects. In both the case of Pipeline Perturbation and Input Perturbation settings, the magnitude of
-percent deviation between pairs of connectomes (Figure~\ref{fig:absolute}A) across each category is consistent with
-this sorting. However, there is a much tighter bound in the distribution of differences in both the cross-MCA and
-cross-subsample cases with Pipeline Perturbations, where deviations rarely reach the level of session or individual
-variations. Connectomes generated with Input Perturbations show considerably more variability, often reaching
-deviations equal to or greater than those observed across individuals or sessions. While both pipelines show similar
-distributions in both perturbation settings, the probabilistic pipeline is more stable for cross-MCA and
-cross-subsample evaluations in the face of Pipeline Perturbations whereas the deterministic is more stable under Input
-Perturbations ($p < 0.0001$ for all; exploratory).
+The stability of connectomes was evaluated through the deviation from reference and the number of significant digits
+(Figure~\ref{fig:absolute}). The comparisons were grouped according to differences across simulations, subsampling
+of data, sessions of acquisition, or subjects. While the similarity of connectomes decreases as the collections become
+more distinct, connectomes generated with Input Perturbations show considerable variability, often reaching deviations
+equal to or greater than those observed across individuals or sessions (Figure~\ref{fig:absolute}A; right). This
+finding suggests that instabilities inherent to these pipelines may mask session or individual differences, limiting
+the trustworthiness of derived connectomes for these analyses. While both pipelines show similar performance, the
+probabilistic pipeline is more stable in the face of Pipeline Perturbations whereas the deterministic is more stable
+under Input Perturbations ($p < 0.0001$ for all; exploratory). An evaluation of the stability of graph correlations can
+in \sref{supsec:correlation}.
 
-The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly follows the
-expected and previously observed trend across groups. While the cross-MCA Pipeline Perturbation evaluations show nearly
-perfect precision (approaching $16$ digits) for many edges, this evaluation uniquely shows considerable drop off in
-performance with the cross-subsample group (average of $< 4$ digits). The combination of this with results presented in
-Figures~\ref{fig:absolute}A suggests that specific edge weights are largely affected by these perturbations while
-macro-scale connectivity is largely unchanged. Connectomes perturbed by Input Perturbations show no more than an
-average of $3$ significant digits across all groups. In the case of both perturbations, cross-individual significance
-does not exceed a single digit per edge, suggesting that groupwise average connectomes should be limited to a single
-digit of precision (i.e. only the order of magnitude of the edge can be relied upon).
+The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly decreases across
+groups. While the cross-MCA comparison of connectomes generated Pipeline Perturbations show nearly perfect precision
+for many edges (approaching the maximum of $15.7$ digits for $64$-bit data), this evaluation uniquely shows
+considerable drop off in performance across data subsampling (average of $< 4$ digits). Input Perturbations show no
+more than an average of $3$ significant digits across all groups. Significance across individuals did not exceed a
+single digit per edge in any case, indicating that only the magnitude of edges in groupwise average connectomes can be
+trusted. The combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while
+specific edge weights are largely affected by instabilities, macro-scale network topology is stable.
 
 \subsection*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
 \begin{table*}[ht]\centering
