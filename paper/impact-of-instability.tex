@@ -137,7 +137,7 @@ for future work in this area.
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
 \begin{figure*}[hbt]\centering
-\includegraphics[width=\linewidth]{figures/fig1_absolute_differences.pdf}
+\includegraphics[width=0.98\linewidth]{figures/fig1_absolute_differences.pdf}
 \caption{Exploration of perturbation-induced deviations from reference connectomes.
 (\textbf{A}) The absolute deviations, in the form of normalized percent deviation from reference, shown as the
 across MCA series relative to Across Subsample, Across Session, and Aross Subject variations.
@@ -150,20 +150,19 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to contain
 $25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting in four
 collections per individual. Structural connectomes were generated with canonical deterministic and probabilistic
-pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, mimicking computational noise at either the
-inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines were sampled $20$ times per
-collection and once without perturbations, resulting in a total of $4,200$ connectomes.
+pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, mimicking computational
+noise at either the inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines were sampled $20$
+times per collection and once without perturbations, resulting in a total of $4,200$ connectomes.
 
 The stability of connectomes was evaluated through the deviation from reference and the number of significant digits
 (Figure~\ref{fig:absolute}). The comparisons were grouped according to differences across simulations, subsampling
 of data, sessions of acquisition, or subjects. While the similarity of connectomes decreases as the collections become
-more distinct, connectomes generated with Input Perturbations show considerable variability, often reaching deviations
+more distinct, connectomes generated with input perturbations show considerable variability, often reaching deviations
 equal to or greater than those observed across individuals or sessions (Figure~\ref{fig:absolute}A; right). This
 finding suggests that instabilities inherent to these pipelines may mask session or individual differences, limiting
-the trustworthiness of derived connectomes for these analyses. While both pipelines show similar performance, the
-probabilistic pipeline is more stable in the face of Pipeline Perturbations whereas the deterministic is more stable
-under Input Perturbations ($p < 0.0001$ for all; exploratory). An evaluation of the stability of graph correlations can
-in \sref{supsec:correlation}.
+the trustworthiness of derived connectomes. While both pipelines show similar performance, the probabilistic pipeline
+was more stable in the face of pipeline perturbations whereas the deterministic was more stable to input perturbations
+($p < 0.0001$ for all; exploratory). The stability of correlations can be found in \sref{supsec:correlation}.
 
 The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly decreases across
 groups. While the cross-MCA comparison of connectomes generated Pipeline Perturbations show nearly perfect precision
