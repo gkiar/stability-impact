@@ -160,8 +160,13 @@ justification=raggedright]{caption}
 \def\@affiliation{%
   \ifnum\@tmpcnt<\@authcnt
    \global\advance\@tmpcnt1
-    \raggedright \csname @auth\romannumeral\the\@tmpcnt\endcsname\hfill\\%
-   \let\next\@affiliation \vskip1pt
+    \raggedright \csname @auth\romannumeral\the\@tmpcnt\endcsname% \\
+    \ifnum\@tmpcnt<\@authcnt
+     ;~
+    \else
+     .
+    \fi
+   \let\next\@affiliation % \vskip1pt
   \else
    \let\next\relax
   \fi

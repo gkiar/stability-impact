@@ -63,12 +63,12 @@
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
 Bratislav Misic\textsuperscript{1}, Tristan Glatard\textsuperscript{2$\dagger$},
 Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
-\affiliation{\textsuperscript{1}\textit{Montréal Neurological Institute, McGill University, Montréal, QC, Canada}} % Author affiliation
-\affiliation{\textsuperscript{2}\textit{Department of Computer Science and Software Engineering, Concordia University, Montréal, QC, Canada}} % Author affiliation
-\affiliation{\textsuperscript{3}\textit{Department of Computer Science, Université of Versailles, Versailles, France}} % Author affiliation
-\affiliation{\textsuperscript{4}\textit{Exascale Computing Lab, Intel, Paris, France}} % Author affiliation
-\affiliation{\textsuperscript{5}\textit{Department of Psychology and eScience Institute, University of Washington, Seattle, WA, USA}} % Author affiliation
-\affiliation{\textsuperscript{6}\textit{Parietal project-team, INRIA Saclay-ile de France, France}} % Author affiliation
+\affiliation{\textsuperscript{1}\textit{Montréal Neurological Institute, McGill University, Montréal, QC, Canada}}
+\affiliation{\textsuperscript{2}\textit{Department of Computer Science and Software Engineering, Concordia University, Montréal, QC, Canada}}
+\affiliation{\textsuperscript{3}\textit{Department of Computer Science, Université of Versailles, Versailles, France}}
+\affiliation{\textsuperscript{4}\textit{Exascale Computing Lab, Intel, Paris, France}}
+\affiliation{\textsuperscript{5}\textit{Department of Psychology and eScience Institute, University of Washington, Seattle, WA, USA}}
+\affiliation{\textsuperscript{6}\textit{Parietal project-team, INRIA Saclay-ile de France, France}}
 \affiliation{$\dagger$Authors contributed equally}
 
 \Keywords{Stability --- Reproducibility --- Network Neuroscience --- Neuroimaging} % Keywords - if you don't want any simply remove all the text between the curly brackets
@@ -147,13 +147,13 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \label{fig:absolute}
 \end{figure*}
 
-{\color{red} Add single opening sentence}.
-A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to contain
-$25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting in four
-collections per individual. Structural connectomes were generated with canonical deterministic and probabilistic
-pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, mimicking computational
-noise at either the inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines were sampled $20$
-times per collection and once without perturbations, resulting in a total of $4,200$ connectomes.
+Prior to exploring the analytic impact of instabilities, a direct understanding of the induced variability was
+required. A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to
+contain $25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting
+in four collections per individual. Structural connectomes were generated with canonical deterministic and
+probabilisticpipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, replicating
+computational noise at either the inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines
+were sampled $20$ times per collection and once without perturbations, resulting in a total of $4,200$ connectomes.
 
 The stability of connectomes was evaluated through the deviation from reference and the number of significant digits
 (Figure~\ref{fig:absolute}). The comparisons were grouped according to differences across simulations, subsampling
@@ -238,6 +238,7 @@ possible number of significant digits.}
 \end{figure*}
 
 \begin{itemize}
+\item introduce second processed dataset 
 \item define measures and cite their common use
 \item define comparison of distributions and discuss implication (distributions are stable)
 \item define comparison of moments (individual statistics are unstable)
