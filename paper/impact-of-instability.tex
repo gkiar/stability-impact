@@ -147,6 +147,7 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \label{fig:absolute}
 \end{figure*}
 
+{\color{red} Add single opening sentence}.
 A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to contain
 $25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting in four
 collections per individual. Structural connectomes were generated with canonical deterministic and probabilistic
@@ -176,60 +177,56 @@ specific edge weights are largely affected by instabilities, macro-scale network
 \subsection*{Subject-Specific Signal is Amplified While Artifacts Are Reduced}
 \begin{table*}[ht]\centering
 \caption{The impact of instabilities evaluated through the separability of the dataset based on simulation, subsample,
-session, and subject (reported as mean~$\pm$~standard deviation Discriminability). While a perfectly separable dataset
+session, and subject (reported as mean~$\pm$~standard deviation Discriminability). While a perfectly reliable dataset
 would be represented by a score of $1.0$, the chance performance is $1 /$the number of classes. In the case of
 Hypothesis 1, the evaluation of similarity across individuals, the chance performance is $0.04$. In the case of
 Hypotheses 2 and 3, the evaluation of similarity across sessions or subsamples, respectively, the chance performance is
-$0.5$. The alternative hypothesis, indicating significant separation across classes, is accepted for all experiments,
+$0.5$. The alternative hypothesis, indicating significant separation across groups, is accepted for all experiments,
 with $p < 0.005$.}
 \vspace{5pt}
 \input{figures/tab1_discrim.tex}
 \label{tab:discrim}
 \end{table*}
 
-\begin{itemize}
-\item explain discriminability as a measure of reliability
-\item explain hypothesis 1, result, and impact (MCA improves reliability)
-\item explain hypothesis 2, result, and impact (MCA reduces session-noise)
-\item explain hypothesis 3, result, and impact (MCA reduces subsample-noise)
-\item summarize gross impact (the reliability of brain imaging datasets is improved through the adoption of MCA)
-\end{itemize}
+We assessed the reproducibility of the dataset through mimicking and extending a typical test-retest
+experiment~\cite{bridgeford2020elim} in which the similarity of similar samples across multiple measurements were
+compared to distinct samples in the dataset (Table~\ref{tab:discrim}). The ability to separate connectomes across
+subjects (Experiments 1.1, 1.2, and 1.3) is an essential prerequisite for the application of brain imaging towards
+identifying individual differences~\cite{Dubois2016-yr}. In experiment 1.1, we observe that the dataset is separable
+with a score of $0.64$ and $0.65$ ($p < 0.001$; optimal score: $1.0$; chance: $0.04$) without any instrumentation.
+However, we can see that inducing instabilities through MCA improves the reliability of the dataset to over $0.75$ in
+each case ($p < 0.001$ for all), significantly higher than without instrumentation or greater in ($p < 0.005$ for all).
+This result impactfully suggests the utility of perturbation methods for synthesizing robust and reliable individual
+estimates of connectivity, serving as a cost effective and context-agnostic method for dataset augmentation.
 
-Beyond direct difference on the connectomes, we evaluated the discriminability between groups, to characterize
-quantitatively the impact of perturbations on the separability of the dataset (Table~\ref{tab:discrim}). For
-hypothesis 1, which explores the separability of the dataset with respect to participant labels, an ideal dataset would
-have a discriminability score of $1.0$. In experiment 1.1, that which mimics a typical test-retest scenario, we observe
-that the dataset is separable with a discriminability score of $0.64$ or greater in each of these experiments (all
-statistically significant, $p < 0.005$). Both MCA instrumentations significantly increase the discriminability, and
-therefore reliability, of the dataset in this experiment ($p < 0.001$ for all). This result impactfully suggests the
-utility of both MCA methods for synthesizing more robust and reliable individual estimates of connectivity.
+While the separability of individuals is essential for the identification of brain networks, this modelling is
+similarly reliant on network similarity across equivalent acquisitions (Experiments 2.4, 2.5). In this case,
+connectomes were grouped based upon session, rather than subject, and the ability to distinguish one session from
+another was computed within-individual and aggregated. Both the unperturbed and pipeline perturbation settings
+perfectly preserved differences between cross-sectional session with a score of $1.0$ ($p < 0.005$; optimal score:
+$0.5$; chance: $0.05$). However, while still significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for
+both), input perturbations lead to significantly lower separability of the dataset ($p < 0.005$ for all). This
+reduction of the difference between sessions of data within individuals suggests that increased variance caused by
+input perturbations reduces the impact of non-biological acquisition-dependent bias inherent in the brain graphs.
 
-Experiment 1.1 is unsurprisingly the least discriminable test of this hypothesis, as experiments 1.2 and 1.3 rely on
-the same session of data, either distinguished by downsampling or perturbations, respectively. Input Perturbations lead
-to a decrease in the separability of individuals in these experiments, but the reliability still exceeds the
-cross-session case.
+Though the previous sets of experiments inextricably evaluate the interaction between the dataset and tool, the use of
+subsampling allowed for characterizing the separability of networks sampled from within a single acquisition
+(Experiment 3.6). While this experiment could not be evaluated using reference executions, the executions performed
+with pipeline perturbations showed near perfect separation between subsamples, with scores of $0.99$ and $1.0$
+($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition or preprocessing
+that contributes to this reliable identification of scans, the separability observed in this experiment may only be due
+to instability or bias inherent to the pipelines. The high variability introduced through input perturbations
+considerably lowered the reliability towards chance (score: $0.71$ and $0.61$; $p < 0.005$ for all), further supporting
+this as an effective method for obtaining lower-bias estimates of individual connectivity.
 
-Hypothesis 2 considers the separability of connectomes based upon session, rather than subject. In this case,
-performance was computed within-individual and aggregated. An ideal test-retest dataset – one where there is no
-difference between two observations of an individual – would have a discriminability score of $0.5$ in these
-experiments.
+In all cases the induced perturbations showed an amplification of meaningful biological signal alongside a reduction of
+off-target bias across all experiments. This result highlights that stability evaluation can be used not only to
+identify instabilities and variance within pipelines, but that the observed variance may be leveraged for the
+generation of robust distributions of results.
 
-The discriminability in both the unperturbed and Perturbed Pipeline settings is $1.0$, meaning that there is a
-significant difference between sessions of data. However, while still significant relative to chance, Input
-Perturbations lead to considerably lower discriminability, reducing the difference between distinct sessions of data.
-This suggests that Input Perturbations reduce session-dependent bias.
-
-Finally, experiment 3.6 evaluates the separability of samples based on subsampling. Similarly to the previous, the
-performance is once again computed through analyzing individual sessions of data and aggregating across sessions and
-individuals, with an ideal score of $0.5$. While this experiment could not be evaluated using reference executions, the
-Pipeline Perturbation performance showed near perfect separation between direction subsamples whereas Input
-Perturbations considerably lower this separability towards chance, similar to as was observed in experiments 2.4 and
-2.5. This is further evidence which suggests that the Input Perturbations may have an application in obtaining more
-robust estimates of individual connectivity, as across each experiment it shows an amplification in meaningful
-differences while also showing a reduction in off-target differences.
+{\color{red} unedited past here}.
 
 \subsection*{Distributions of Graph Statistics Are Reliable, Individual Statistics Are Not}
-
 \begin{figure*}[bt!]\centering
 \includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
 \caption{Distribution and stability assessment of multivariate graph statistics. (\textbf{A}, \textbf{B}) The
@@ -309,11 +306,6 @@ This paper explores the impact of perturbing a structural connectome estimation 
 
 The adoption of Monte Carlo Arithmetic for this application allowed for not only the characterization of concrete measures of stability within individual samples, such as the number of significant digits in edges of a connectome or a derived statistic, but allowed these values to be situated with respect to other biologically meaningful sources of variability such as cross-session or cross-individual variation. Importantly, the evaluation of the stability of graphs in the cross-direction subsampling setting would not have been possible without either a realistic noise model or a simulation technique similar to MCA in which multiple results are derived from a single sample of input data.
 
-While both MCA approaches identified instabilities in the tested pipelines, in the case of the Test-ReTest analysis, the adoption of MCA improved the discriminability, and thus the reliability of the results. In the case of traditional cross-individual comparison, both perturbation methods improved the reproducibility of the dataset significantly,  increasing the separability of individuals from 0.64– to 0.82 and 0.77 for the deterministic pipeline for Pipeline and Input Perturbation methods, respectively, and similarly for the probabilistic pipeline. This suggests that MCA may be a cost effective and context-agnostic method for data augmentation.
-
-Conversely to the increase in reliability across individuals, in the case when discrimination between classes was not desired (i.e. cross-session and within-session cross-subsample  comparisons), Input Perturbations in particular led to the reduced separability of the dataset. For this discrimination task, a well-conditioned system would provide results that would closely resemble one another, such that the separability of the classes is low. The fact that this was not the case suggests that the system (i.e. tool and data combination) was unstable, leading to results which were distinct without biologically-meaningful variability. The repeated generation of connectomes with Input Perturbed MCA in this experiment reduces this separability, however, showing that fixed biases in this system were partially responsible for the separability. The discriminability of the cross-direction group in particular shifted dramatically towards an ideal random-chance value. This result highlights that MCA can be used not only to identify instabilities within pipelines but also as a technique for the generation of distributions of plausible results which may be aggregated or considered en masse.
-
-The important difference of this final discriminability experiment compared to the previous ones is that there is no variability in data acquisition or preprocessing that contribute to the observed differences. This means that the separability observed in this experiment is only due to the modeling pipelines. While data and processing tools are inseparable when performing a stability evaluation, the tiered experiment approach performed here allows for the characterization of this relationship at different scales and of independent pipeline components.
 
 One emergent theme across all analyses was that Input Perturbations led to considerably less stable than Pipeline Perturbations, confirming observations in [10]. However, the distributions of connectomes and their statistics were not distinct from one another. This is strong support for the groupwise evaluation of graph statistics over the use of individual estimates for applications in brain imaging.
 
