@@ -9,6 +9,17 @@
   year    =  2016
 }
 
+@article{bennett2009neural,
+  title={Neural correlates of interspecies perspective taking in the post-mortem Atlantic Salmon: An argument for multiple comparisons correction},
+  author={Bennett, Craig M and Miller, Michael B and Wolford, George L},
+  journal={Neuroimage},
+  volume={47},
+  number={Suppl 1},
+  pages={S125},
+  year={2009},
+  publisher={Elsevier Science}
+}
+
 @ARTICLE{Pestilli2014-ou,
   title    = "Evaluation and statistical inference for human connectomes",
   author   = "Pestilli, Franco and Yeatman, Jason D and Rokem, Ariel and Kay,
@@ -192,50 +203,12 @@
   year      =  2018
 }
 
-@ARTICLE{Kiar2019-in,
-  title         = "Comparing Perturbation Models for Evaluating Stability of
-                   {Post-Processing} Pipelines in Neuroimaging",
-  author        = "Kiar, Gregory and de Oliveira Castro, Pablo and Rioux,
-                   Pierre and Petit, Eric and Brown, Shawn T and Evans, Alan C
-                   and Glatard, Tristan",
-  abstract      = "A lack of software reproducibility has become increasingly
-                   apparent in the last several years, calling into question
-                   the validity of scientific findings affected by published
-                   tools. Reproducibility issues may have numerous sources of
-                   error, including the underlying numerical stability of
-                   algorithms and implementations employed. Various forms of
-                   instability have been observed in neuroimaging, including
-                   across operating system versions, minor noise injections,
-                   and implementation of theoretically equivalent algorithms.
-                   In this paper we explore the effect of various perturbation
-                   methods on a typical neuroimaging pipeline through the use
-                   of i) near-epsilon noise injections, ii) Monte Carlo
-                   Arithmetic, and iii) varying operating systems to identify
-                   the quality and severity of their impact. The work presented
-                   here demonstrates that even low order computational models
-                   such as the connectome estimation pipeline that we used are
-                   susceptible to noise. This suggests that stability is a
-                   relevant axis upon which tools should be compared,
-                   developed, or improved, alongside more commonly considered
-                   axes such as accuracy/biological feasibility or performance.
-                   The heterogeneity observed across participants clearly
-                   illustrates that stability is a property of not just the
-                   data or tools independently, but their interaction.
-                   Characterization of stability should therefore be evaluated
-                   for specific analyses and performed on a representative set
-                   of subjects for consideration in subsequent statistical
-                   testing. Additionally, identifying how this relationship
-                   scales to higher-order models is an exciting next step which
-                   will be explored. Finally, the joint application of
-                   perturbation methods with post-processing approaches such as
-                   bagging or signal normalization may lead to the development
-                   of more numerically stable analyses while maintaining
-                   sensitivity to meaningful variation.",
-  month         =  aug,
-  year          =  2019,
-  archivePrefix = "arXiv",
-  primaryClass  = "q-bio.NC",
-  eprint        = "1908.10922"
+
+@article{salari2020file,
+  title={File-based localization of numerical perturbations in data analysis pipelines},
+  author={Salari, Ali and Kiar, Gregory and Lewis, Lindsay and Evans, Alan C and Glatard, Tristan},
+  journal={arXiv preprint arXiv:2006.04684},
+  year={2020}
 }
 
 @ARTICLE{Glasser2013-vf,
@@ -277,6 +250,38 @@
   keywords = "CIFTI; Grayordinates; Human Connectome Project; Image analysis
               pipeline; Multi-modal data integration; Surface-based analysis",
   language = "en"
+}
+
+@article{van2014brain,
+  title={Brain networks in schizophrenia},
+  author={Van Den Heuvel, Martijn P and Fornito, Alex},
+  journal={Neuropsychology review},
+  volume={24},
+  number={1},
+  pages={32--48},
+  year={2014},
+  publisher={Springer}
+}
+
+@article{filippi2013assessment,
+  title={Assessment of system dysfunction in the brain through MRI-based connectomics},
+  author={Filippi, Massimo and van den Heuvel, Martijn P and Fornito, Alexander and He, Yong and Pol, Hilleke E Hulshoff and Agosta, Federica and Comi, Giancarlo and Rocca, Maria A},
+  journal={The Lancet Neurology},
+  volume={12},
+  number={12},
+  pages={1189--1199},
+  year={2013},
+  publisher={Elsevier}
+}
+
+@article{xie2012mapping,
+  title={Mapping the Alzheimer’s brain with connectomics},
+  author={Xie, Teng and He, Yong},
+  journal={Frontiers in psychiatry},
+  volume={2},
+  pages={77},
+  year={2012},
+  publisher={Frontiers}
 }
 
 @ARTICLE{Rubinov2010-fh,
@@ -374,13 +379,13 @@
   language = "en"
 }
 
-@MISC{Botvinik-Nezer2019-xa,
-  title  = "Variability in the analysis of a single neuroimaging dataset by
-            many teams. {BioRxiv}, 843193",
-  author = "Botvinik-Nezer, R and Holzmeister, F and Camerer, C F and Dreber, A
-            and Huber, J and Johannesson, M and Kirchler, M and Iwanir, R and
-            Mumford, J A and Adcock, A and {Others}",
-  year   =  2019
+@article{botvinik2020variability,
+  title={Variability in the analysis of a single neuroimaging dataset by many teams},
+  author={Botvinik-Nezer, Rotem and Holzmeister, Felix and Camerer, Colin F and Dreber, Anna and Huber, Juergen and Johannesson, Magnus and Kirchler, Michael and Iwanir, Roni and Mumford, Jeanette A and Adcock, R Alison and others},
+  journal={Nature},
+  pages={1--7},
+  year={2020},
+  publisher={Nature Publishing Group}
 }
 
 @ARTICLE{Glatard2018-tu,
@@ -590,56 +595,24 @@
   year      =  2018
 }
 
-@UNPUBLISHED{Bridgeford2019-kp,
-  title    = "Optimal Experimental Design for Big Data: Applications in Brain
-              Imaging",
-  author   = "Bridgeford, Eric W and Wang, Shangsi and Yang, Zhi and Wang, Zeyi
-              and Xu, Ting and Craddock, Cameron and Kiar, Gregory and
-              Gray-Roncal, William and Priebe, Carey E and Caffo, Brian and
-              Milham, Michael and Zuo, Xi-Nian and {Consortium for Reliability
-              and Reproduciblity} and Vogelstein, Joshua T",
-  abstract = "The cost of data collection and processing is becoming
-              prohibitively expensive for many research groups across
-              disciplines, a problem that is exacerbated by the dependence of
-              ever larger sample sizes to obtain reliable inferences for
-              increasingly subtle questions. And yet, as more data is available
-              and open access, more researchers desire to analyze it for
-              different questions, often including previously unforeseen
-              questions. To further increase sample sizes, existing datasets
-              are often amalgamated. These reference datasets - datasets that
-              serve to answer many disparate questions for different
-              individuals - are increasingly common and important. Reference
-              pipelines efficiently and flexibly analyze on all the datasets.
-              How can one optimally design these reference datasets and
-              pipelines to yield derivative data that are simultaneously useful
-              for many different tasks? We propose an approach to experimental
-              design that leverages multiple measurements for each distinct
-              item (for example, an individual). The key insight is that each
-              measurement of the same item should be more similar to other
-              measurements of that item, as compared to measurements of any
-              other item. In other words, we seek to optimally discriminate one
-              item from another. We formalize the notion of discriminability,
-              and introduce both a non-parameteric and parametric statistic to
-              quantify the discriminability of potentially multivariate or
-              non-Euclidean datasets. With this notion, one can make optimal
-              decisions - either with regard to acquisition or analysis of data
-              - by maximizing discriminability. Crucially, this optimization
-              can be performed in the absence of any task-specific (or
-              supervised) information. We show that optimizing decisions with
-              respect to discriminability yields improved performance on
-              subsequent inference tasks. We apply this strategy to a brain
-              imaging dataset built by the ``Consortium for Reliability and
-              Reproducability'' which consists of 24 disparate magnetic
-              resonance imaging datasets, each with up to hundreds of
-              individuals that were imaged multiple times. We show that by
-              optimizing pipelines with respect to discriminability, we improve
-              performance on multiple subsequent inference tasks, even though
-              discriminability does not consider the tasks whatsoever.",
-  journal  = "bioRxiv",
-  pages    = "802629",
-  month    =  oct,
-  year     =  2019,
-  language = "en"
+@article{bridgeford2020elim,
+  title={Eliminating accidental deviations to minimize generalization error: applications in connectomics and genomics},
+  author={Bridgeford, Eric W and Wang, Shangsi and Yang, Zhi and Wang, Zeyi and Xu, Ting and Craddock, Cameron and Dey, Jayanta and Kiar, Gregory and Gray-Roncal, William and Coulantoni, Carlo and others},
+  journal={bioRxiv},
+  pages={802629},
+  year={2020},
+  publisher={Cold Spring Harbor Laboratory}
+}
+
+@article{eklund2016cluster,
+  title={Cluster failure: Why fMRI inferences for spatial extent have inflated false-positive rates},
+  author={Eklund, Anders and Nichols, Thomas E and Knutsson, Hans},
+  journal={Proceedings of the national academy of sciences},
+  volume={113},
+  number={28},
+  pages={7900--7905},
+  year={2016},
+  publisher={National Acad Sciences}
 }
 
 @ARTICLE{Garyfallidis2012-gg,
@@ -807,6 +780,12 @@
   language = "en"
 }
 
+@article{baker20161,
+  title={1,500 scientists lift the lid on reproducibility},
+  author={Baker, Monya},
+  year={2016}
+}
+
 @ARTICLE{Garyfallidis2014-ql,
   title    = "Dipy, a library for the analysis of diffusion {MRI} data",
   author   = "Garyfallidis, Eleftherios and Brett, Matthew and Amirbekian,
@@ -894,6 +873,71 @@
   publisher = "University of California (Los Angeles). Computer Science
                Department",
   year      =  1997
+}
+
+@article{deco2014great,
+  title={Great expectations: using whole-brain computational connectomics for understanding neuropsychiatric disorders},
+  author={Deco, Gustavo and Kringelbach, Morten L},
+  journal={Neuron},
+  volume={84},
+  number={5},
+  pages={892--905},
+  year={2014},
+  publisher={Elsevier}
+}
+
+@article{van2016comparative,
+  title={Comparative connectomics},
+  author={Van den Heuvel, Martijn P and Bullmore, Edward T and Sporns, Olaf},
+  journal={Trends in cognitive sciences},
+  volume={20},
+  number={5},
+  pages={345--361},
+  year={2016},
+  publisher={Elsevier}
+}
+
+@article{morgan2013not,
+  title={Why not connectomics?},
+  author={Morgan, Joshua L and Lichtman, Jeff W},
+  journal={Nature methods},
+  volume={10},
+  number={6},
+  pages={494},
+  year={2013},
+  publisher={Nature Publishing Group}
+}
+
+@article{xia2016connectomic,
+  title={Connectomic insights into topologically centralized network edges and relevant motifs in the human brain},
+  author={Xia, Mingrui and Lin, Qixiang and Bi, Yanchao and He, Yong},
+  journal={Frontiers in human neuroscience},
+  volume={10},
+  pages={158},
+  year={2016},
+  publisher={Frontiers}
+}
+
+@article{behrens2012human,
+  title={Human connectomics},
+  author={Behrens, Timothy EJ and Sporns, Olaf},
+  journal={Current opinion in neurobiology},
+  volume={22},
+  number={1},
+  pages={144--153},
+  year={2012},
+  publisher={Elsevier}
+}
+
+@article{fornito2015connectomics,
+  title={Connectomics: a new paradigm for understanding brain disease},
+  author={Fornito, Alex and Bullmore, Edward T},
+  journal={European Neuropsychopharmacology},
+  volume={25},
+  number={5},
+  pages={733--748},
+  year={2015},
+  publisher={Elsevier}
 }
 
 @ARTICLE{Wu2012-uc,

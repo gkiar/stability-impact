@@ -39,8 +39,9 @@
 
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{amsmath,amsfonts,amssymb}
-\RequirePackage{graphicx,xcolor}
+\RequirePackage{graphicx,xcolor,colortbl}
 \RequirePackage{booktabs}
+\usepackage[superscript,nomove]{cite}
 
 %----------------------------------------------------------------------
 %	MARGINS	
@@ -90,7 +91,8 @@ justification=raggedright]{caption}
   {\color{color1}\large\sffamily\bfseries}
   {}
   {0em}
-  {\colorbox{color2!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\arabic{section}. #1}}}
+  {\colorbox{color2!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\thesection. #1}}}
+  % {\colorbox{color2!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\arabic{section}. #1}}}
   []
 \titleformat{name=\section,numberless}
   {\color{color1}\large\sffamily\bfseries}
@@ -158,8 +160,13 @@ justification=raggedright]{caption}
 \def\@affiliation{%
   \ifnum\@tmpcnt<\@authcnt
    \global\advance\@tmpcnt1
-    \raggedright \csname @auth\romannumeral\the\@tmpcnt\endcsname\hfill\\%
-   \let\next\@affiliation \vskip1pt
+    \raggedright \csname @auth\romannumeral\the\@tmpcnt\endcsname% \\
+    \ifnum\@tmpcnt<\@authcnt
+     ;~
+    \else
+     .
+    \fi
+   \let\next\@affiliation % \vskip1pt
   \else
    \let\next\relax
   \fi
@@ -170,6 +177,19 @@ justification=raggedright]{caption}
     \expandafter\gdef\csname @auth\romannumeral\the\@authcnt\endcsname
     {#1}}
 
+%----------------------------------------------------------------------
+%	CREATE SUPPLEMENT SECTIONS
+%----------------------------------------------------------------------  
+\newcommand{\beginsupplement}{%
+        \onecolumn
+        \setcounter{section}{0}
+        \renewcommand{\thesection}{S\arabic{section}}%
+        \setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+}
+\newcommand{\sref}[1]{Supplemental Section~\ref{#1}}
 %----------------------------------------------------------------------
 %	LIST CONTROL
 %----------------------------------------------------------------------  
