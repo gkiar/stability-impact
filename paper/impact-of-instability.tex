@@ -148,12 +148,13 @@ digit of a value can be trusted. Pipeline- and Input-perturbations are shown on 
 \end{figure*}
 
 Prior to exploring the analytic impact of instabilities, a direct understanding of the induced variability was
-required. A subset of the Nathan Kline Institute Rockland Sample dataset~\cite{Nooner2012-eg} was randomly selected to
-contain $25$ individuals with two sessions of imaging data, each of which was subsampled into two components, resulting
-in four collections per individual. Structural connectomes were generated with canonical deterministic and
-probabilistic pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with MCA, replicating
-computational noise at either the inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}. The pipelines
-were sampled $20$ times per collection and once without perturbations, resulting in a total of $4,200$ connectomes.
+required. A subset of the Nathan Kline Institute Rockland Sample (NKIRS) dataset~\cite{Nooner2012-eg} was randomly
+selected to contain $25$ individuals with two sessions of imaging data, each of which was subsampled into two
+components, resulting in four collections per individual. Structural connectomes were generated with canonical
+deterministic and probabilistic pipelines~\cite{Garyfallidis2014-ql,Garyfallidis2012-gg} which were instrumented with
+MCA, replicatingcomputational noise at either the inputs or throughout the pipelines~\cite{Denis2016-wo,Kiar2020-lb}.
+The pipelines were sampled $20$ times per collection and once without perturbations, resulting in a total of $4,200$
+connectomes.
 
 The stability of connectomes was evaluated through the deviation from reference and the number of significant digits
 (Figure~\ref{fig:absolute}). The comparisons were grouped according to differences across simulations, subsampling
@@ -224,9 +225,7 @@ off-target bias across all experiments. This result highlights that stability ev
 identify instabilities and variance within pipelines, but that the observed variance may be leveraged for the
 generation of robust distributions of results.
 
-{\color{red} unedited past here}.
-
-\subsection*{Distributions of Graph Statistics Are Reliable, Individual Statistics Are Not}
+\subsection*{Distributions of Graph Statistics Are Reliable, But Individual Statistics Are Not}
 \begin{figure*}[bt!]\centering
 \includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
 \caption{Distribution and stability assessment of multivariate graph statistics. (\textbf{A}, \textbf{B}) The
@@ -237,71 +236,56 @@ possible number of significant digits.}
 \label{fig:multivar}
 \end{figure*}
 
-\begin{itemize}
-\item introduce second processed dataset 
-\item define measures and cite their common use
-\item define comparison of distributions and discuss implication (distributions are stable)
-\item define comparison of moments (individual statistics are unstable)
-\item summarize impact (group-wise distributions should be relied upon rather than individual differences)
-\end{itemize}
+Exploring she stability of topological features of connectomes approaches that of the stability of analyses, as these
+features are often more suitable than full connectomes for many analytical methods in practice~\cite{Rubinov2010-fh}.
+A separate subset of the NKIRS dataset was randomly selected to contain a single non-subsampled session for $100$
+individuals, and connectomes were generated as above.
 
-Connectomes are often summarized by lower-dimensional statistics more suitable for numerous analytical
-methods~\cite{Rubinov2010-fh}. Figure~\ref{fig:multivar} explores the stability of these graph-theoretical metrics
-computed from the perturbed graphs, including weight, clustering coefficient, path length, betweenness centrality, and
-degree. Due to the variable length of the edgewise statistics, cumulative density functions for each statistic were
-evaluated over a fixed range and the mean density and associated standard error were computed for each bin
-(Figures~\ref{fig:multivar}A and ~\ref{fig:multivar}B), with the distributions' minimum, median, and maximum values
-denoted on each x-axis. There was no significant difference in distributions observed for each statistic across the two
-perturbation settings. The first 5 moments of these statistics within individuals as observed with Pipeline
-Perturbations (Figure~\ref{fig:multivar}C) were stable with more than $10$ significant digits with the exception of
-edge weight when using the deterministic pipeline. In the case of all statistics, the probabilistic pipeline was more
-stable than the deterministic pipeline ($p < 0.0001$; exploratory). In stark contrast, these moments were highly
-unstable in the face of Input Perturbations (Figure~\ref{fig:multivar}D), in which no measure had more than $5$
-significant digits of information, and several moment and statistic pairs had less than a single significant digit,
-such as the variance in edge weight or the kurtosis of betweenness centrality. In general, there was not a strong
-relationship between the order of the moment and its stability. A similar analysis was performed for univariate
-statistics in \sref{supsec:univar}.
+The stability of several commonly-used multivariate graph features~\cite{Betzel2018-eo} was explored in
+Figure~\ref{fig:multivar}. The cumulative density of the features was computed within individuals and the mean
+density and associated standard error were computed for across individuals (Figures~\ref{fig:multivar}A and
+\ref{fig:multivar}B). There was no significant difference beetween the distributions for each feature across the two
+perturbation settings, suggesting that the topological features summarized by these multivariate features is robust
+across both perturbation modes.
 
-The large discrepancy between the stability of individual estimates in these settings versus the similarity of
-aggregated CDFs suggests that while individual estimates are unstable, the comparison between aggregates or groups may
-be considered much more reliable.
+In addition to the comparison of distributions, the stability of the first $5$ moments of these features was evaluated
+(Figures~\ref{fig:multivar}C and \ref{fig:multivar}D). In the face of pipeline perturbations, the feature-moments were
+stable with more than $10$ significant digits with the exception of edge weight when using the deterministic pipeline,
+though the probabilistic pipeline was more stable for all comparisons ($p < 0.0001$; exploratory). In stark contrast,
+input perturbations led to highly unstable feature-moments (Figure~\ref{fig:multivar}D), such that none contained more
+than $5$ significant digits of information and several contained than a single significant digit, indicating a complete
+lack of reliability. This dramatic degradation in stability for individual measures, combined with the stability in
+their cross-subject distributions, strongly suggests that while these features may be unreliable as individual
+biomarkers, they may be used to robustly describe network topologies at a group-level. A similar analysis was performed
+for univariate statistics and can be found in \sref{supsec:univar}.
 
-\subsection*{The Strength of Brain-Behaviour Relationships is Eroded}
+\subsection*{Wide Margins in Brain-Behaviour Relationships}
 
-\begin{figure*}[ht]\centering
+\begin{figure}[ht]\centering
 \includegraphics[width=\linewidth]{figures/fig3_bmi_classification.pdf}
-\caption{Observed variability in BMI classification. Training and Test sets were sampled from the MCA-generated dataset
-such that a single observation of each individual was present in each sampling. This sampling was performed 20 times,
-and each dataset was used to train a classifier with each of 2, 5, 10, and N-fold cross validation, and the shown
-metrics are the average across each of these training paradigms. The dashed red lines indicate random-chance
-performance, and the orange dots show the performance using the reference executions.}
+\caption{Variability in BMI classification across the sampling of an MCA-perturbed dataset. The dashed red lines
+indicate random-chance performance, and the orange dots show the performance using the reference executions.}
 \label{fig:bmi}
-\end{figure*}
+\end{figure}
+ 
+While the variability of connectomes and their features was summarized above, networks are commonly-used as inputs to
+machine learning models tasked with learning brain-behaviour relationships~\cite{Dubois2016-yr}. To explore the
+stability of these analyses, we modelled the relationship between BMI and brain
+connectivity~\cite{Park2015-uj,Gupta2015-ap}, using standard dimensionality reduction and classification tools, and
+compared this to reference and random performance (Figure~\ref{fig:bmi}).
 
-\begin{itemize}
-\item define classification task and cite justification
-\item state reference performance and distribution of perturbed performances
-\item summarize impact (the strength of biological signal is highly unstable and erodes confidence in models of brain
-behaviour relationships)
-\end{itemize}
-
-While the variability of explicit features of connectomes was summarized above, these networks are commonly-used as
-inputs to machine learning models. Here, connectomes were projected into a low dimensional space using PCA and then
-input a logistic regression classifier (Figure~\ref{fig:bmi}). The number of principal components was selected as the
-minimum number of components required to capture 90\% of the variance in the reference set; this resulted in $20$
-components. Using the reference performance, i.e. that using only unperturbed graphs (Figure~\ref{fig:bmi}; orange
-overlay), the classification accuracies were $0.635$ and $0.628$, and the F1 scores were $0.636$ and $0.630$ for data
-derived using the deterministic and probabilistic pipelines, respectively, with the average explained variance at 90\%
-in both cases. The random chance performance for these evaluations measures were $0.521$ and $0.519$, respectively
-(Figure~\ref{fig:bmi}; dashed red line).
-
-When performing this analysis using sampled instances of the perturbed dataset across both pipelines and perturbation
-methods, the portion of explained variance in the sample with $20$ components ranged from $0.886$ -– $0.978$. The
-classification accuracy ranged from $0.520$ – $0.716$ and the F1 score ranged from $0.510$ -– $0.725$. These results
-range from at or below random chance performance, to considerable accuracy that outperforms that obtained using the
-reference dataset.
+The analysis was perturbed through distinct samplings of the dataset across both pipelines and perturbation methods.
+The accuracy and F1 score for the models varied from $0.520$~–-~$0.716$ and $0.510$~-–~$0.725$, respectively, ranging
+from at or below random performance to outperforming the reference performance. This large variability illustrates a
+previously uncharacterized margin of uncertainty in the modelling of this relationship, and erodes confidence in
+reported accuracy scores on singly processed datasets. The portion of explained variance in these samples ranged from
+$88.6\%$~-–~$97.8\%$, closely surrounding the reference dataset, suggesting that the range in performance was not due
+to a gain or loss of meaningful signal, but rather the reduction of bias towards specific outcome. Importantly, this
+finding does not suggest that modelling brain-behaviour relationships is not possible, but rather it sheds light on
+impactful uncertainty that must be accounted for in this process.
 
 \subsection*{Discussion}
+{\color{red} Unedited past here}.
 
 This paper explores the impact of perturbing a structural connectome estimation pipeline with small amounts of noise, on the order of machine error. These impacts were explored through three distinct comparisons of the derived connectomes: comparison of networks directly, comparison of commonly used network features, and comparison of the performance of a downstream analytical task. In each analysis we found considerable variability across the perturbed executions. Perhaps more notably, we found that the variability was itself highly variable across data, perturbation, feature, and measure. In each exploration we found that the stability of results ranged from nearly perfectly trustworthy (i.e. no variation or fully significant) to untrustworthy often to the level of only two or three significant digits of information, and occasionally with no significant digits at all.
 
