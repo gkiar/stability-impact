@@ -286,37 +286,110 @@ impactful uncertainty that must be accounted for in this process.
 
 \subsection*{Discussion}
 
-
 {\color{red} Unedited past here}.
 
-This paper explores the impact of perturbing a structural connectome estimation pipeline with small amounts of noise, on the order of machine error. These impacts were explored through three distinct comparisons of the derived connectomes: comparison of networks directly, comparison of commonly used network features, and comparison of the performance of a downstream analytical task. In each analysis we found considerable variability across the perturbed executions. Perhaps more notably, we found that the variability was itself highly variable across data, perturbation, feature, and measure. In each exploration we found that the stability of results ranged from nearly perfectly trustworthy (i.e. no variation or fully significant) to untrustworthy often to the level of only two or three significant digits of information, and occasionally with no significant digits at all.
+This paper explores the impact of perturbing a structural connectome estimation pipeline with small amounts of noise,
+on the order of machine error. These impacts were explored through three distinct comparisons of the derived
+connectomes: comparison of networks directly, comparison of commonly used network features, and comparison of the
+performance of a downstream analytical task. In each analysis we found considerable variability across the perturbed
+executions. Perhaps more notably, we found that the variability was itself highly variable across data, perturbation,
+feature, and measure. In each exploration we found that the stability of results ranged from nearly perfectly
+trustworthy (i.e. no variation or fully significant) to untrustworthy often to the level of only two or three
+significant digits of information, and occasionally with no significant digits at all.
 
-The adoption of Monte Carlo Arithmetic for this application allowed for not only the characterization of concrete measures of stability within individual samples, such as the number of significant digits in edges of a connectome or a derived statistic, but allowed these values to be situated with respect to other biologically meaningful sources of variability such as cross-session or cross-individual variation. Importantly, the evaluation of the stability of graphs in the cross-direction subsampling setting would not have been possible without either a realistic noise model or a simulation technique similar to MCA in which multiple results are derived from a single sample of input data.
+The adoption of Monte Carlo Arithmetic for this application allowed for not only the characterization of concrete
+measures of stability within individual samples, such as the number of significant digits in edges of a connectome or a
+derived statistic, but allowed these values to be situated with respect to other biologically meaningful sources of
+variability such as cross-session or cross-individual variation. Importantly, the evaluation of the stability of graphs
+in the cross-direction subsampling setting would not have been possible without either a realistic noise model or a
+simulation technique similar to MCA in which multiple results are derived from a single sample of input data.
 
+One emergent theme across all analyses was that Input Perturbations led to considerably less stable than Pipeline
+Perturbations, confirming observations in [10]. However, the distributions of connectomes and their statistics were not
+distinct from one another. This is strong support for the groupwise evaluation of graph statistics over the use of
+individual estimates for applications in brain imaging.
 
-One emergent theme across all analyses was that Input Perturbations led to considerably less stable than Pipeline Perturbations, confirming observations in [10]. However, the distributions of connectomes and their statistics were not distinct from one another. This is strong support for the groupwise evaluation of graph statistics over the use of individual estimates for applications in brain imaging.
+The difference in stability between the two instrumentations opens the door for many avenues for future work. The two
+implementations of MCA were determined, for practical reasons, as the boundary between software libraries; Pipeline
+Perturbations included a much more complete instrumentation, resulting in a higher density of perturbations. We
+hypothesize that the increased density of Pipeline Perturbations allow for the law of large numbers to mask critically
+unstable points within the pipeline, whereas errors introduced in the Input Perturbation implementation are allowed to
+propagate longer before correction. This question is non-trivially answered as understanding the true density of
+"coverage" of an arbitrary pipeline is impossible without direct assessment. Once coverage is evaluated for a given
+tool, instrumentations perturbing different degrees of the pipeline have potential to shed light on the relationship
+between the magnitude, frequency, and density of perturbations on the observed stability, as well as reduce the
+computational burden of MCA.
 
-The difference in stability between the two instrumentations opens the door for many avenues for future work. The two implementations of MCA were determined, for practical reasons, as the boundary between software libraries; Pipeline Perturbations included a much more complete instrumentation, resulting in a higher density of perturbations. We hypothesize that the increased density of Pipeline Perturbations allow for the law of large numbers to mask critically unstable points within the pipeline, whereas errors introduced in the Input Perturbation implementation are allowed to propagate longer before correction. This question is non-trivially answered as understanding the true density of "coverage" of an arbitrary pipeline is impossible without direct assessment. Once coverage is evaluated for a given tool, instrumentations perturbing different degrees of the pipeline have potential to shed light on the relationship between the magnitude, frequency, and density of perturbations on the observed stability, as well as reduce the computational burden of MCA.
+Another observation which became apparent across the analyses was that variability changed significantly based on
+measure or resolution. For instance, graphs generated with Input Perturbations were perceived to be significantly more
+similar to one another when compared with correlation compared to percent deviation or significant digits measures.
+Importantly, this does not imply correlation as a superior statistic or means for the comparison of graphs, but just
+that it is more robust, or less sensitive, under these circumstances. If an initial evaluation of these graphs were
+performed solely using correlation, it would perhaps lead the researcher to believe that their measures are perfectly
+stable. However, if their downstream analysis depended on one of the statistics demonstrated through Figures 2 and 3 to
+be highly unstable, this assumption would be incorrect. What this suggests is rather that the stability of any measures
+intended to be used in an analysis should be quantified, as the stability of one measure cannot be perfectly inferred
+from another.
 
-Another observation which became apparent across the analyses was that variability changed significantly based on measure or resolution. For instance, graphs generated with Input Perturbations were perceived to be significantly more similar to one another when compared with correlation compared to percent deviation or significant digits measures. Importantly, this does not imply correlation as a superior statistic or means for the comparison of graphs, but just that it is more robust, or less sensitive, under these circumstances. If an initial evaluation of these graphs were performed solely using correlation, it would perhaps lead the researcher to believe that their measures are perfectly stable. However, if their downstream analysis depended on one of the statistics demonstrated through Figures 2 and 3 to be highly unstable, this assumption would be incorrect. What this suggests is rather that the stability of any measures intended to be used in an analysis should be quantified, as the stability of one measure cannot be perfectly inferred from another.
+\paragraph{A Limit in Detection of Individual Differences}
+The finding that individually derived network statistics were unreliable in the Input Perturbations setting despite
+resulting in no aggregated change has important implications on applications of connectomics. This finding bounds the
+success of studying individual differences, a central objective in brain imaging (Dubois and Adolphs 2016). More
+specifically, the relationships found between pheno/genotypic data and these statistics or connectomes in general will
+be limited by the reliability of the statistics themselves. While this has obvious implications in machine-learning
+applications such as the classification task studied above, this limitation extends to hypothesis testing as well.
+Though the result of an individual comparison in a hypothesis test will have a reported false-positive rate, the
+accuracy of this rate is dependent on the reliability of the sample used. For instance, if MCA were performed and each
+single observation of a highly unstable sample were used in a hypothesis test, the true false positive rate would be a
+combination of the variability in the results of that hypothesis test and the reported rate under the parameters of the
+model. Without a repeated-measure setting such as MCA, it is impossible to empirically estimate the reliability of the
+samples used in hypothesis testing, meaning that the reliability of accepted hypotheses is unknown, regardless of the
+reported false positive rate. In fact, it is a virtual certainty that the true false positive rate for a given
+hypothesis exceeds that reported by the terminal test simply as a result of numerical instabilities.
 
-A Limit in Detection of Individual Differences
+\paragraph{Eroding the Biological Plausibility of Derived Connectomes}
+One important insight uniquely provided by the classification task performed above is with regards to the biological
+plausibility of derived connectomes. While previous analyses explored the variability of the connectomes or their
+features, with the exception of comparisons to cross-subject variability these values were not situated with respect to
+meaningful biological differences. The results shown here demonstrate that our MCA-based perturbations not only distort
+results, but do so while retaining meaningful signal rather than merely degrading our estimates. This analysis allows
+us to demonstrate considerable variability in classification performance, in which we observe the reference execution
+to be approximately centered in the distribution of results. Critically, while MCA perturbations are data-agnostic,
+this result is strong evidence in favour of the quality of derived connectomes observed using MCA, suggesting that it
+can be used effectively in conjunction with, or in lieu of, context-aware noise models, as is often the case in brain
+imaging. 
 
-The finding that individually derived network statistics were unreliable in the Input Perturbations setting despite resulting in no aggregated change has important implications on applications of connectomics. This finding bounds the success of studying individual differences, a central objective in brain imaging (Dubois and Adolphs 2016). More specifically, the relationships found between pheno/genotypic data and these statistics or connectomes in general will be limited by the reliability of the statistics themselves. While this has obvious implications in machine-learning applications such as the classification task studied above, this limitation extends to hypothesis testing as well. Though the result of an individual comparison in a hypothesis test will have a reported false-positive rate, the accuracy of this rate is dependent on the reliability of the sample used. For instance, if MCA were performed and each single observation of a highly unstable sample were used in a hypothesis test, the true false positive rate would be a combination of the variability in the results of that hypothesis test and the reported rate under the parameters of the model. Without a repeated-measure setting such as MCA, it is impossible to empirically estimate the reliability of the samples used in hypothesis testing, meaning that the reliability of accepted hypotheses is unknown, regardless of the reported false positive rate. In fact, it is a virtual certainty that the true false positive rate for a given hypothesis exceeds that reported by the terminal test simply as a result of numerical instabilities.
+\paragraph{Shortcomings and Future Questions}
+A limitation of the approach presented in this paper is the difficulty of instrumentation for arbitrary libraries with
+MCA. This is non-trivial for many tools due to a dependence on recompilation under specific settings. For this reason
+all modeling pipelines tested here were constructed using Dipy (Garyfallidis et al. 2014), a canonical Python library
+which provides accessible implementations of commonly-used algorithms in tractography. Pre-processing was not perturbed
+in these experiments. Other work has shown that linear registration is sensitive to minor perturbations, a prerequisite
+and core piece of many elements of pre-processing such as motion correction and alignment [8]. In practice, this
+suggests that the instabilities observed here would be compounded with those introduced in pre-processing.
 
-Eroding the Biological Plausibility of Derived Connectomes
+Additionally, the analyses performed in this paper were using a single dataset and a single set of similar analysis
+pipelines. While the conclusions stated here have been observed in other modalities and tools used in neuroimaging
+through other means, the nature of this work makes it impossible to know how reliable other tools or datasets are when
+perturbed and evaluated similarly. Extending this work to both typical fMRI and structural MRI workflows is of
+interest, and the topic of future projects.
 
-One important insight uniquely provided by the classification task performed above is with regards to the biological plausibility of derived connectomes. While previous analyses explored the variability of the connectomes or their features, with the exception of comparisons to cross-subject variability these values were not situated with respect to meaningful biological differences. The results shown here demonstrate that our MCA-based perturbations not only distort results, but do so while retaining meaningful signal rather than merely degrading our estimates. This analysis allows us to demonstrate considerable variability in classification performance, in which we observe the reference execution to be approximately centered in the distribution of results. Critically, while MCA perturbations are data-agnostic, this result is strong evidence in favour of the quality of derived connectomes observed using MCA, suggesting that it can be used effectively in conjunction with, or in lieu of, context-aware noise models, as is often the case in brain imaging. 
+This paper also does not address methodological flexibility or compare this to the observed instability. As was
+demonstrated by NARPS in a task-based fMRI analysis setting [26], there exists a nearly boundless space of possible
+combinations of tools scientists could choose to compose their pipelines. As a result, research groups often end up
+using unique processing pipelines and infrastructures, which may lead to divergent conclusions even in the face of
+modeling identical datasets. The evaluation performed here does not compare observed the impact of MCA-induced
+instabilities to variability of this sort. In fact, these studies explore instability at the opposite ends of the
+analysis spectrum: from human introduced variability in the conceptualization and realization of an analysis workflow
+on the one hand, down to the unavoidable error implicit in the digital representation of data. It is of extreme
+interest to combine these approaches and explore the interaction of these scientific degrees of freedom with effects
+from software implementations, libraries, and parametric choices.
 
-Shortcomings and Future Questions
-
-A limitation of the approach presented in this paper is the difficulty of instrumentation for arbitrary libraries with MCA. This is non-trivial for many tools due to a dependence on recompilation under specific settings. For this reason all modeling pipelines tested here were constructed using Dipy (Garyfallidis et al. 2014), a canonical Python library which provides accessible implementations of commonly-used algorithms in tractography. Pre-processing was not perturbed in these experiments. Other work has shown that linear registration is sensitive to minor perturbations, a prerequisite and core piece of many elements of pre-processing such as motion correction and alignment [8]. In practice, this suggests that the instabilities observed here would be compounded with those introduced in pre-processing.
-
-Additionally, the analyses performed in this paper were using a single dataset and a single set of similar analysis pipelines. While the conclusions stated here have been observed in other modalities and tools used in neuroimaging through other means, the nature of this work makes it impossible to know how reliable other tools or datasets are when perturbed and evaluated similarly. Extending this work to both typical fMRI and structural MRI workflows is of interest, and the topic of future projects.
-
-This paper also does not address methodological flexibility or compare this to the observed instability. As was demonstrated by NARPS in a task-based fMRI analysis setting [26], there exists a nearly boundless space of possible combinations of tools scientists could choose to compose their pipelines. As a result, research groups often end up using unique processing pipelines and infrastructures, which may lead to divergent conclusions even in the face of modeling identical datasets. The evaluation performed here does not compare observed the impact of MCA-induced instabilities to variability of this sort. In fact, these studies explore instability at the opposite ends of the analysis spectrum: from human introduced variability in the conceptualization and realization of an analysis workflow on the one hand, down to the unavoidable error implicit in the digital representation of data. It is of extreme interest to combine these approaches and explore the interaction of these scientific degrees of freedom with effects from software implementations, libraries, and parametric choices.
-
-Finally, it is important to state explicitly that the work presented here does not invalidate the analytical pipelines but merely state that many studies are accompanied by an unknown degree of uncertainty due to machine-introduced errors. The desired outcome of this paper is to motivate a shift in scientific computing – particularly in neuroimaging – towards a paradigm which values the explicit evaluation of the trustworthiness of claims alongside the claims themselves.
+Finally, it is important to state explicitly that the work presented here does not invalidate the analytical pipelines
+but merely state that many studies are accompanied by an unknown degree of uncertainty due to machine-introduced
+errors. The desired outcome of this paper is to motivate a shift in scientific computing -– particularly in
+neuroimaging -– towards a paradigm which values the explicit evaluation of the trustworthiness of claims alongside the
+claims themselves.
 
 {\color{orange}Notes\\\\
 It means that we are, as a field, overconfident in numerical stability, and that in a typical setting this would lead
@@ -324,13 +397,13 @@ to wrong conclusions. Or am I over-stating it? Because if that's the case, it ne
 And in the abstract. And maybe also in the title of the article. this amount of numerical noise is to be expected in
 typical settings, not only in MCA. Is that correct? And that has implications for inferences in the typical setting.
 }
-
+ 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
 % \phantomsection
-\bibliographystyle{IEEEtran}
-{\footnotesize \bibliography{impact-of-instability}}
+ \bibliographystyle{IEEEtran}
+\bibliography{impact-of-instability}
 
 \clearpage
 \section*{Methods}

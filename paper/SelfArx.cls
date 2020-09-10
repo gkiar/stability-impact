@@ -252,6 +252,9 @@ justification=raggedright]{caption}
 %\setlength{\bibitemsep}{0cm}
 \let\oldbibliography\thebibliography
 \renewcommand{\thebibliography}[1]{%
-\addcontentsline{toc}{section}{\refname}%
-\oldbibliography{#1}%
-\setlength\itemsep{0pt}}%
+  \subsection*{References}
+  \footnotesize 
+  \renewcommand{\section}[2]{}
+  \oldbibliography{#1}
+  \setlength\itemsep{0pt}
+}%
