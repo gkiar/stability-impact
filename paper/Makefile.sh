@@ -1,6 +1,7 @@
 TEX="pdflatex"
 BIBTEX="bibtex"
 FILE="impact-of-instability"
+FILE_METHODS="impact-of-instability-methods"
 
 default:
 	${TEX} ${FILE} &&\
@@ -10,7 +11,7 @@ default:
 	${TEX} ${FILE}
 
 clean:
-	rm -f ${FILE}{.blg,.bbl,.log,.aux,.out,.fdb_latexmk,.fls,.synctex.gz} &&\
+	rm -f ${FILE}{.bcf,.blg,.bbl,.log,.aux,.out,.fdb_latexmk,.fls,.run.xml,.synctex.gz} &&\
 	rm Makefile
 
 cleanall:
