@@ -65,8 +65,7 @@
 
 \Authors{Gregory Kiar\textsuperscript{1}, Yohan Chatelain\textsuperscript{2}, Pablo de Oliveira Castro\textsuperscript{3},
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
-Bratislav Misic\textsuperscript{1}, Tristan Glatard\textsuperscript{2$\dagger$},
-Alan C. Evans\textsuperscript{1$\dagger$}} % Authors
+Bratislav Misic\textsuperscript{1}, Alan C. Evans\textsuperscript{1$\dagger$}, Tristan Glatard\textsuperscript{2$\dagger$}} % Authors
 \affiliation{\textsuperscript{1}\textit{Montréal Neurological Institute, McGill University, Montréal, QC, Canada}}
 \affiliation{\textsuperscript{2}\textit{Department of Computer Science and Software Engineering, Concordia University, Montréal, QC, Canada}}
 \affiliation{\textsuperscript{3}\textit{Department of Computer Science, Université of Versailles, Versailles, France}}
@@ -94,10 +93,11 @@ features~\cite{Betzel2018-eo,Rubinov2010-fh}, and the impact on a downstream ana
 The stability of results was found to be highly dependent upon which features of the connectomes were evaluated, and
 ranged from perfectly stable (i.e. no observed variability across executions) to highly unstable (i.e. the results
 contained no trustworthy significant information). The extreme range and variability in results presented here could
-severely hamper our understanding of brain function in brain-imaging studies. However, it also highlights potential
-paths forward, such leveraging this variance to reduce bias in estimates of brain connectivity. This paper demonstrates
-that stability evaluations are necessary as a core component of typical analytical workflows.}
-
+severely hamper our understanding of brain function in brain-imaging studies. However, it also highlights the potential
+of leveraging this variance in estimates of brain connectivity to increase the reliability of datasets and reduce bias.
+This paper demonstrates that stability evaluations are necessary as a core component of typical analytical workflows.}
+% add explicit and hopeful reference to increased reliability
+% make middle discussion section more explicit in terms of the generality and steps that scientists must take
 %----------------------------------------------------------------------------------------
 
 \begin{document}
@@ -323,11 +323,6 @@ numerical stability of their analyses and accurately gauge confidence in them. F
 derived brain networks may be leveraged to shift the bias-variance tradeoff such that learned relationships are more
 generalizable and ultimately the utility of such relationships is increased.
 
-% {\color{orange}Notes\\
-% It means that we are, as a field, overconfident in numerical stability, and that in a typical setting this would lead
-% to wrong conclusions. It needs to be unequivocally stated here. And in the abstract. And in the title of the article.
-% }
-
 \paragraph{Cost-Effective Data Augmentation}
 The evaluation of reliability in brain imaging has historically relied upon the expensive collection of repeated
 measurements choreographed by the massive cross-institutional consortia~\cite{van2013wu,zuo2014open}. The finding that
@@ -340,8 +335,8 @@ efforts to increase the reliability of each distinct sample within a dataset. In
 are collected to increase the fidelity of the dataset, MCA could potentially be employed to increase the reliability of
 the dataset and save millions of dollars on data collection. This technique also opens the door for the
 characterization of reliability across axes which have been traditionally inaccessible. For instance, in the absence of
-a realistic noise model, the evaluation of network stability across data subsampling would not have been possible
-without a simulation technique similar to MCA.
+a realistic noise model or simulation technique similar to MCA, the evaluation of network stability across data
+subsampling would not have been possible.
 
 \paragraph{Shortcomings and Future Questions}
 Given the complexity of recompiling complex software libraries, pre-processing was not perturbed in these experiments.
@@ -376,11 +371,6 @@ trustworthiness of claims alongside the claims themselves.
 \clearpage
 
 \section*{Methods}
-{\color{red} Unedited past here. Will copy-paste methods more-or-less as-is from the previous draft}.
-All software developed for processing or evaluation is publicly available on GitHub at
-\url{https://github.com/gkiar/stability}. Experiments were launched using Boutiques~\cite{Glatard2018-tu} and
-Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment, and a permanent record of each execution is
-published on Zenodo {\color{red} todo}.
 
 \subsection*{Dataset}
 The Nathan Kline Institute Rockland Sample (NKI-RS)~\cite{Nooner2012-eg} dataset contains high-fidelity imaging and
@@ -482,26 +472,110 @@ the consistency of structure and not just intensity between observed graphs.
 
 Finally, the estimated number of significant digits, $s'$, for each edge in the graph is calculated as:
 
-\lipsum[10] % Dummy text
+\begin{equation}
+s' = -log_{10}\frac{\sigma}{\lvert\mu\rvert}
+\label{eq:sigdig}
+\end{equation}
 
-\begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
+where $\mu$ and $\sigma$ are the mean and unbiased estimator of standard deviation across graphs, respectively. The
+upper bound on significant digits is $15.7$ for 64-bit floating point data.
+
+The percent deviation, correlation, and number of significant digits were each calculated within a single session of
+data, thereby removing any subject- and session-effects and providing a direct measure of the tool-introduced
+variability across perturbations. A distribution was formed by aggregating these individual results.
+
+\paragraph{Class-based Variability Evaluation} To gain a concrete understanding of the significance of observed
+variations we explore the separability of our results with respect to understood sources of variability, such as 
+subject-, session-, and pipeline-level effects. This can be probed through Discriminability~\cite{bridgeford2020elim},
+a technique similar to ICC~\cite{Bartko1966-tl} which relies on the mean of a ranked distribution of distances between
+observations belonging to a defined set of classes. The discriminability statistic is formalized as follows:
+
+\begin{equation}
+Disc. = Pr(\lVert g_{ij} - g_{ij'} \rVert \leq \lVert g_{ij} - g_{i'j'} \rVert)
+\label{eq:sigdig}
+\end{equation}
+
+where $g_{ij}$ is a graph belonging to class $i$ that was measured at observation $j$, where $i \neq i'$ and
+$j \neq j'$.
+
+Discriminability can then be read as the probability that an observation belonging to a given class will be more
+similar to other observations within that class than observations of a different class. It is a measure of
+reproducibility, and is discussed in detail in~\cite{bridgeford2020elim}. This definition allows for the exploration of
+deviations across arbitrarily defined classes which in practice can be any of those listed above. We combine this
+statistic with permutation testing to test hypotheses on whether differences between classes are statistically
+significant in each of these settings.
+
+With this in mind, three hypotheses were defined. For each setting, we state the alternate hypotheses, the variable(s)
+which were used to determine class membership, and the remaining variables which may be sampled when obtaining multiple
+observations. Each hypothesis was tested independently for each pipeline and perturbation mode, and in every case where
+it was possible the hypotheses were tested using the reference executions alongside using MCA.
+
+\begin{enumerate}[label=$H_{A\arabic*}$:]
+\item \underline{Individuals are distinct from one another}\\
+Class definition: \textit{Subject ID}\\
+Comparisons: \textit{Session (1 subsample)}, \textit{Subsample (1 session)}, \textit{MCA (1 subsample, 1 session)}
+\item \underline{Sessions within an individual are distinct}\\
+Class definition: \textit{Session ID $\vert$ Subject ID}\\
+Comparisons: \textit{Subsample}, \textit{MCA (1 subsample)}
+\item \underline{Subsamples are distinct}\\
+Class definition: \textit{Subsample $\vert$ Subject ID, Session ID}\\
+Comparisons: \textit{MCA}
 \end{enumerate}
 
-\lipsum[14] % Dummy text
+As a result, we tested $3$ hypotheses across $6$ MCA experiments and $3$ reference experiments on $2$ pipelines and $2$
+perturbation modes, resulting in a total of $30$ distinct tests.
 
-\begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{itemize}
+\subsubsection*{Evaluating Graph-Theoretical Metrics}
+While connectomes may be used directly for some analyses, it is common practice to summarize them with structural
+measures, which can then be used as lower-dimensional proxies of connectivity in so-called graph-theoretical
+studies~\cite{Rubinov2010-fh}. We explored the stability of several commonly-used univariate (graphwise) and
+multivariate (nodewise or edgewise) features. The features computed and subsequent methods for comparison in this
+section were selected to closely match those computed in~\cite{Betzel2018-eo}.
+
+\paragraph{Univariate Differences} For each univariate statistic (edge count, mean clustering coefficient, global
+efficiency, modularity of the largest connected component, assortativity, and mean path length) a distribution of
+values across all perturbations within subjects was observed. A Z-score was computed for each sample with respect to
+the distribution of feature values within an individual, and the proportion of "classically significant" Z-scores, i.e.
+corresponding to $p < 0.05$, was reported and aggregated across all subjects. The number of significant digits
+contained within an estimate derived from a single subject were calculated and aggregated.
+
+\paragraph{Multivariate Differences} In the case of both nodewise (degree distribution, clustering coefficient,
+betweenness centrality) and edgewise (weight distribution, connection length) features, the cumulative density
+functions of their distributions were evaluated over a fixed range and subsequently aggregated across individuals. The
+number of significant digits for each moment of these distributions (sum, mean, variance, skew, and kurtosis) were
+calculated across observations within a sample and aggregated.
+
+\subsubsection*{Evaluating A Brain-Behaviour Analysis}
+Though each of the above approaches explores the instability of derived connectomes and their features, many modern
+studies employ modeling or machine-learning approaches, for instance to learn brain-behavior relationships or identify
+differences across groups. We carried out one such study and explored the instability of its results with respect to
+the upstream variability of connectomes characterized in the previous sections. We performed the modeling task with a
+single sampled connectome per individual and repeated this sampling and modelling 20 times. We report the model
+performance for each sampling of the dataset and summarize its variance.
+
+\paragraph{BMI Classification} Structural changes have been linked to obesity in adolescents and
+adults~\cite{Raji2010-lh}. We classified normal-weight and overweight individuals from their structural networks (using
+for overweight a cutoff of BMI $> 25$~\cite{Gupta2015-ap}). We reduced the dimensionality of the connectomes through
+principal component analysis (PCA), and provided the first N-components to a logistic regression classifier for
+predicting BMI class membership, similar to methods shown in~\cite{Gupta2015-ap,Park2015-uj}. The number of components
+was selected as the minimum set which explained $> 90\%$ of the variance when averaged across the training set for each
+fold within the cross validation of the original graphs; this resulted in a feature of $20$ components. We trained the
+model using $k$-fold cross validation, with $k = 2, 5, 10,$ and $N$ (equivalent to leave-one-out; LOO).
 
 %------------------------------------------------
 \subsection*{Data Availability}
+The unprocessed dataset is available through The Consortium of Reliability and Reproducibility
+(\url{http://fcon_1000.projects.nitrc.org/indi/enhanced/}), including both the imaging data as well as phenotypic data
+which may be obtained upon submission and compliance with a Data Usage Agreement. The connectomes generated through
+simulations have been bundled and made available through The Canadian Open Neuroscience Platform
+(\url{https://portal.conp.ca/search}, search term "Kiar"). Execution records for the image analysis can be found on
+Zenodo (\url{todo})
 
 \subsection*{Code Availability}
+All software developed for processing or evaluation is publicly available on GitHub at
+\url{https://github.com/gkiar/stability}. Experiments were launched using Boutiques~\cite{Glatard2018-tu} and
+Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment. A set of MCA instrumented software containers is
+available on Github at \url{https://github.com/gkiar/fuzzy}. 
 
 \subsection*{Author Contributions}
 GK was responsible for the experimental design, data processing, analysis, interpretation, and the majority of writing.
