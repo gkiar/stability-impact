@@ -266,7 +266,7 @@ their cross-subject distributions, strongly suggests that while these features m
 biomarkers, they may be used to robustly describe network topologies at a group-level. A similar analysis was performed
 for univariate statistics and can be found in \sref{supsec:univar}.
 
-\subsection*{Uncertainty in Brain-Behaviour Relationships}
+\subsection*{Uncertainty in Brain-Phenotype Relationships}
 
 \begin{figure*}[ht]\centering
 \includegraphics[width=0.7\linewidth]{figures/fig3_bmi_classification.pdf}
@@ -276,7 +276,7 @@ indicate random-chance performance, and the orange dots show the performance usi
 \end{figure*}
  
 While the variability of connectomes and their features was summarized above, networks are commonly-used as inputs to
-machine learning models tasked with learning brain-behaviour relationships~\cite{Dubois2016-yr}. To explore the
+machine learning models tasked with learning brain-phenotype relationships~\cite{Dubois2016-yr}. To explore the
 stability of these analyses, we modelled the relationship between Body Mass Index (BMI) and brain
 connectivity~\cite{Park2015-uj,Gupta2015-ap}, using standard dimensionality reduction and classification tools, and
 compared this to reference and random performance (Figure~\ref{fig:bmi}).
@@ -288,7 +288,7 @@ illustrates a previously uncharacterized margin of uncertainty in the modelling 
 confidence in reported accuracy scores on singly processed datasets. The portion of explained variance in these samples
 ranged from $88.6\%$~-–~$97.8\%$, closely surrounding the reference dataset, suggesting that the range in performance
 was not due to a gain or loss of meaningful signal, but rather the reduction of bias towards specific outcome.
-Importantly, this finding does not suggest that modelling brain-behaviour relationships is not possible, but rather it
+Importantly, this finding does not suggest that modelling brain-phenotype relationships is not possible, but rather it
 sheds light on impactful uncertainty that must be accounted for in this process.
 
 \subsection*{Discussion}
@@ -306,7 +306,7 @@ is not damning for the study of brain networks as a whole, but rather is strong 
 networks over the use of individual estimates.
 
 \paragraph{Underestimated False Positive Rates}
-While the instability of brain networks was used here to demonstrate the limitations of modelling brain-behaviour
+While the instability of brain networks was used here to demonstrate the limitations of modelling brain-phenotype
 relationships in the context of machine learning, this limitation extends to classical hypothesis testing, as well.
 Though performing individual comparisons in a hypothesis testing framework will be accompanied by reported false
 positive rates, the accuracy of these rates is critically dependent upon the reliability of the samples used. In
@@ -546,9 +546,9 @@ functions of their distributions were evaluated over a fixed range and subsequen
 number of significant digits for each moment of these distributions (sum, mean, variance, skew, and kurtosis) were
 calculated across observations within a sample and aggregated.
 
-\subsubsection*{Evaluating A Brain-Behaviour Analysis}
+\subsubsection*{Evaluating A Brain-Phenotype Analysis}
 Though each of the above approaches explores the instability of derived connectomes and their features, many modern
-studies employ modeling or machine-learning approaches, for instance to learn brain-behavior relationships or identify
+studies employ modeling or machine-learning approaches, for instance to learn brain-phenotype relationships or identify
 differences across groups. We carried out one such study and explored the instability of its results with respect to
 the upstream variability of connectomes characterized in the previous sections. We performed the modeling task with a
 single sampled connectome per individual and repeated this sampling and modelling 20 times. We report the model
