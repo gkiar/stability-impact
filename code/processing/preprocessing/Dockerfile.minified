@@ -1,0 +1,12 @@
+FROM gkiar/dwipreproc_fsl-5.0.11_minified
+
+ENV FSLDIR=/usr/share/fsl
+ENV PATH=/usr/lib/fsl:$FSLDIR/bin:$PATH
+ENV FSLMULTIFILEQUIT=TRUE
+ENV POSSUMDIR=/usr/share/fsl
+ENV LD_LIBRARY_PATH=/usr/lib/fsl:$LD_LIBRARY_PATH
+ENV FSLTCLSH=/usr/bin/tclsh
+ENV FSLWISH=/usr/bin/wish
+ENV FSLOUTPUTTYPE=NIFTI_GZ
+
+ENTRYPOINT ["python3", "/opt/preprocessing_pipeline.py"]
