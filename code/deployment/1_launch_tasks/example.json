@@ -1,0 +1,14 @@
+{
+    "diffusion_image": ".nii.gz",
+    "bvecs": ".bvecs",
+    "bvals": ".bvals",
+    "whitematter_mask": ".nii.gz",
+    "seed_mask": ".nii.gz",
+    "output_directory": "dir",
+    "labels": [".nii.gz"],
+    "verbose": true,
+    "prob": [true, false],
+    "prune": 3,
+    "random_seed": 42,
+    "VFC_BACKENDS": "libinterflop_mca.so -m rr"
+}
