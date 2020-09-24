@@ -42,7 +42,10 @@
 \RequirePackage{graphicx,xcolor,colortbl}
 \RequirePackage{booktabs}
 \usepackage[superscript,nomove]{cite}
-
+\usepackage{lineno}
+\setlength\linenumbersep{0.1cm}
+\renewcommand\thelinenumber{\color{gray}\arabic{linenumber}}
+\linenumbers
 %----------------------------------------------------------------------
 %	MARGINS	
 %----------------------------------------------------------------------
@@ -227,7 +230,7 @@ justification=raggedright]{caption}
 \ifx\@Keywords\@empty%
 \sffamily\textbf{\abstractname}\\\@Abstract%
 \else%
-\sffamily\textbf{\abstractname}\\\@Abstract\\[4pt]%
+\sffamily\@Abstract\\[4pt]%
 \textbf{\keywordname}\\\@Keywords%
 \fi%
 }%
