@@ -1,0 +1,259 @@
+{
+    "author": "Greg Kiar <gkiar.github.io>",
+    "command-line": "python3.6 /opt/dipy_tracking.py [DIFFUSION_IMAGE] [BVECS] [BVALS] [WHITEMATTER_MASK] [SEED_MASK] [OUTPUT_DIRECTORY] [LABELS] [VERBOSE] [PROB] [PRUNE] [RANDOM_SEED] [STREAMLINE_PLOT] [BOUTIQUES]",
+    "container-image": {
+        "image": "gkiar/dipy_tracking:v0.4.0",
+        "index": "index.docker.io",
+        "type": "docker"
+    },
+    "description": "Pipeline for generating streamlines and creating connectomes from preprocessed diffusion images using Dipy. This tool is the boilerplate tractography provided within Dipy.",
+    "environment-variables": [
+        {
+            "description": "The back-end and virtual precision used for the floating point operations. 'libinterflop_mca.so -m rr' is the default ",
+            "name": "VFC_BACKENDS",
+            "value": "[VFC_BACKENDS]"
+        }
+    ],
+    "inputs": [
+        {
+            "description": "Image containing a stack of DWI volumes, ideally preprocessed, to be used for tracing. If this is a nifti image, the image is used directly. If it is a JSON file, it is expected to be an output from the 'oneVoxel' noise-simulation tool and the image will be regenerated using the parameters contained in the JSON file.",
+            "id": "diffusion_image",
+            "name": "diffusion_image",
+            "optional": false,
+            "type": "File",
+            "value-key": "[DIFFUSION_IMAGE]"
+        },
+        {
+            "description": "The b-vectors corresponding to the diffusion images. If the images have been preprocessed then the rotated b-vectors should be used.",
+            "id": "bvecs",
+            "name": "bvecs",
+            "optional": false,
+            "type": "File",
+            "value-key": "[BVECS]"
+        },
+        {
+            "description": "The b-values corresponding to the diffusion images. ",
+            "id": "bvals",
+            "name": "bvals",
+            "optional": false,
+            "type": "File",
+            "value-key": "[BVALS]"
+        },
+        {
+            "description": "A white matter mask generated from a structural image that has been transformed into the same space as the diffusion images.",
+            "id": "whitematter_mask",
+            "name": "whitematter_mask",
+            "optional": false,
+            "type": "File",
+            "value-key": "[WHITEMATTER_MASK]"
+        },
+        {
+            "description": "A seed mask, recommended as the white matter and gray matter boundary. This can be derived from the white matter mask by dilating the image and subtracting the original mask.",
+            "id": "seed_mask",
+            "name": "seed_mask",
+            "optional": false,
+            "type": "File",
+            "value-key": "[SEED_MASK]"
+        },
+        {
+            "description": "The directory in which the streamlines and optionally graphs and figures will be saved in.",
+            "id": "output_directory",
+            "name": "output_directory",
+            "optional": false,
+            "type": "String",
+            "value-key": "[OUTPUT_DIRECTORY]"
+        },
+        {
+            "command-line-flag": "--labels",
+            "description": "Optional nifti image containing co-registered region labels pertaining to a parcellation. This file will be used for generating a connectome from the streamlines.",
+            "id": "labels",
+            "list": true,
+            "name": "labels",
+            "optional": true,
+            "type": "File",
+            "value-key": "[LABELS]"
+        },
+        {
+            "command-line-flag": "--verbose",
+            "description": "Toggles verbose or quiet output printing.",
+            "id": "verbose",
+            "name": "verbose",
+            "optional": true,
+            "type": "Flag",
+            "value-key": "[VERBOSE]"
+        },
+        {
+            "command-line-flag": "--prob",
+            "description": "Toggles probabilistic tracking. Deterministic tracking is used if unspecified.",
+            "id": "prob",
+            "name": "prob",
+            "optional": true,
+            "type": "Flag",
+            "value-key": "[PROB]"
+        },
+        {
+            "command-line-flag": "--prune",
+            "default-value": 3,
+            "description": "Dictates the minimum length of fibers to keep. If fibers are shorter than the value, exclusive,then they will be thrown out. Default value is 3 nodes in the fiber.",
+            "id": "prune",
+            "integer": true,
+            "minimum": 0,
+            "name": "prune",
+            "optional": true,
+            "type": "Number",
+            "value-key": "[PRUNE]"
+        },
+        {
+            "command-line-flag": "--random_seed",
+            "default-value": 42,
+            "description": "Random seed to be used in tractography.",
+            "id": "random_seed",
+            "integer": true,
+            "minimum": 0,
+            "name": "random_seed",
+            "optional": true,
+            "type": "Number",
+            "value-key": "[RANDOM_SEED]"
+        },
+        {
+            "command-line-flag": "--streamline_plot",
+            "description": "Toggles the plotting of streamlines. This requires VTK.",
+            "id": "streamline_plot",
+            "name": "streamline_plot",
+            "optional": true,
+            "type": "Flag",
+            "value-key": "[STREAMLINE_PLOT]"
+        },
+        {
+            "command-line-flag": "--boutiques",
+            "description": "Toggles creation of a Boutiques descriptor and invocation from the tool and inputs.",
+            "id": "boutiques",
+            "name": "boutiques",
+            "optional": true,
+            "type": "Flag",
+            "value-key": "[BOUTIQUES]"
+        },
+        {
+            "default-value": "libinterflop_mca.so -m rr",
+            "id": "VFC_BACKENDS",
+            "name": "VFC Backends",
+            "optional": true,
+            "type": "File",
+            "value-key": "[VFC_BACKENDS]"
+        }
+    ],
+    "name": "Dipy Tracking and Connectome Generation",
+    "output-files": [
+        {
+            "conditional-path-template": [
+                {
+                    "prob": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_prob_rs[RANDOM_SEED].trk"
+                },
+                {
+                    "default": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_det_rs[RANDOM_SEED].trk"
+                }
+            ],
+            "id": "fibers",
+            "name": "Fibers",
+            "optional": false,
+            "path-template-stripped-extensions": [
+                ".nii.gz",
+                ".nii",
+                ".json"
+            ]
+        },
+        {
+            "conditional-path-template": [
+                {
+                    "prob": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_prob_rs[RANDOM_SEED].png"
+                },
+                {
+                    "default": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_det_rs[RANDOM_SEED].png"
+                }
+            ],
+            "id": "fibers_plot",
+            "name": "Fibers Plot",
+            "optional": true,
+            "path-template-stripped-extensions": [
+                ".nii.gz",
+                ".nii",
+                ".json"
+            ]
+        },
+        {
+            "conditional-path-template": [
+                {
+                    "prob": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_prob_rs[RANDOM_SEED]_*.mat"
+                },
+                {
+                    "default": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_det_rs[RANDOM_SEED]_*.mat"
+                }
+            ],
+            "id": "graph",
+            "list": true,
+            "name": "Graphs",
+            "optional": true,
+            "path-template-stripped-extensions": [
+                ".nii.gz",
+                ".nii",
+                ".json"
+            ]
+        },
+        {
+            "conditional-path-template": [
+                {
+                    "prob": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_prob_rs[RANDOM_SEED]_*.png"
+                },
+                {
+                    "default": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_det_rs[RANDOM_SEED]_*.png"
+                }
+            ],
+            "id": "graph_plot",
+            "list": true,
+            "name": "Graph plots",
+            "optional": true,
+            "path-template-stripped-extensions": [
+                ".nii.gz",
+                ".nii",
+                ".json"
+            ]
+        },
+        {
+            "conditional-path-template": [
+                {
+                    "prob": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_prob_rs[RANDOM_SEED]_*_mapping.json"
+                },
+                {
+                    "default": "[OUTPUT_DIRECTORY]/*/*/dwi/[DIFFUSION_IMAGE]_det_rs[RANDOM_SEED]_*_mapping.json"
+                }
+            ],
+            "id": "graph_edge_mapping",
+            "list": true,
+            "name": "Graph edge mappings",
+            "optional": true,
+            "path-template-stripped-extensions": [
+                ".nii.gz",
+                ".nii",
+                ".json"
+            ]
+        }
+    ],
+    "schema-version": "0.5",
+    "suggested-resources": {
+        "cpu-cores": 1,
+        "ram": 4096,
+        "walltime-estimate": 45
+    },
+    "tags": {
+        "domain": [
+            "neuroinformatics",
+            "image processing",
+            "mri",
+            "connectome",
+            "diffusion",
+            "fuzzy"
+        ]
+    },
+    "tool-version": "v0.4.0",
+    "doi": "10.5281/zenodo.3699595"
+}

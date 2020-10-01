@@ -1,0 +1,12 @@
+{
+    "bids_dir": "/data/RocklandSample",
+    "participant_label": [
+        "A00019903"
+    ],
+    "output_dir": "/data/RocklandSample/derivatives",
+    "parcellation": [
+        "/data/atlases/DK.nii.gz"
+    ],
+    "analysis_level": "session",
+    "verbose": true
+}

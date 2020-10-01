@@ -1,0 +1,19 @@
+FROM gkiar/fuzzy:python-dipy-afq
+
+ENV VFC_BACKENDS "libinterflop_ieee.so"
+
+RUN rm -rf /etc/apt/sources.list.d/ &&\
+    apt-get update -qqq &&\
+    apt-get install -y libhdf5-dev &&\
+    rm -rf /var/lib/apt/lists/
+
+RUN pip3.6 install scipy cython &&\
+    pip3.6 install nibabel matplotlib onevox boutiques
+
+COPY ./dipy_tracking.py /opt/dipy_tracking.py
+
+RUN ln -sf /bin/bash /bin/sh
+ENV VFC_BACKENDS "libinterflop_mca.so -m rr"
+
+
+ENTRYPOINT ["python3.6", "/opt/dipy_tracking.py"]
