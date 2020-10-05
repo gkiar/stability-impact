@@ -61,7 +61,7 @@
 \JournalInfo{$ $ } % Journal information
 \Archive{Pre-print} % Additional notes (e.g. copyright, DOI, review/research article)
 
-\PaperTitle{Numerical Instabilities in Neuroscience Software Lead to Impactful Variability in Networks} % Article title
+\PaperTitle{Numerical Instabilities Lead to Meaningful Variability in Brain Networks} % Article title
 
 \Authors{Gregory Kiar\textsuperscript{1}, Yohan Chatelain\textsuperscript{2}, Pablo de Oliveira Castro\textsuperscript{3},
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
@@ -93,11 +93,12 @@ features~\cite{Betzel2018-eo,Rubinov2010-fh}, and the impact on a downstream ana
 The stability of results was found to be highly dependent upon which features of the connectomes were evaluated, and
 ranged from perfectly stable (i.e. no observed variability across executions) to highly unstable (i.e. the results
 contained no trustworthy significant information). While the extreme range and variability in results presented here
-could severely hamper our understanding of brain organization in brain-imaging studies, it also provides the
-opportunity to obtain lower bias estimates of brain structure. This paper highlights the potential of leveraging the
-induced variance in estimates of brain connectivity to increase the reliability of datasets alongside the robustness of
-their applications in the detection or classification of individual differences. This paper demonstrates that stability
-evaluations are necessary for understanding error and bias inherent to typical analytical workflows.}
+could severely hamper our understanding of brain organization in brain-imaging studies, it also leads to an increase
+in the reliability of datasets. This paper highlights the potential of leveraging the induced variance in estimates of
+brain connectivity to reduce the bias in networks alongside increasing the robustness of their applications in the
+detection or classification of individual differences. This paper demonstrates that stability evaluations are necessary
+for understanding error and bias inherent to scientific computing, and that they should be a component of typical
+analytical workflows.}
 %----------------------------------------------------------------------------------------
 
 \begin{document}
@@ -137,7 +138,7 @@ Arithmetic (MCA)~\cite{Parker1997-qq}, a technique which enables characterizatio
 small perturbations. We explored the impact of perturbations through the direct comparision of structural connectomes,
 the consistency of their features, and their eventual application in a neuroscience study. Finally we conclude on the
 consequences and opportunities afforded by the observed instabilities and make recommendations for the roles stability
-analyses may play in the future of brain imaging.
+analyses may play towards increasing the reliability of brain imaging research.
 
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
