@@ -61,7 +61,7 @@
 \JournalInfo{$ $ } % Journal information
 \Archive{Pre-print} % Additional notes (e.g. copyright, DOI, review/research article)
 
-\PaperTitle{Numerical Instabilities in Analytical Pipelines Compromise the Reliability of Network Neuroscience} % Article title
+\PaperTitle{Numerical Instabilities in Analytical Pipelines Lead to Large and Meaningful Variability in Brain Networks} % Article title
 
 \Authors{Gregory Kiar\textsuperscript{1}, Yohan Chatelain\textsuperscript{2}, Pablo de Oliveira Castro\textsuperscript{3},
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
@@ -92,12 +92,13 @@ noise in floating-point computations, and evaluated the stability of the derived
 features~\cite{Betzel2018-eo,Rubinov2010-fh}, and the impact on a downstream analysis~\cite{Park2015-uj,Gupta2015-ap}.
 The stability of results was found to be highly dependent upon which features of the connectomes were evaluated, and
 ranged from perfectly stable (i.e. no observed variability across executions) to highly unstable (i.e. the results
-contained no trustworthy significant information). The extreme range and variability in results presented here could
-severely hamper our understanding of brain function in brain-imaging studies. However, it also highlights the potential
-of leveraging this variance in estimates of brain connectivity to increase the reliability of datasets and reduce bias.
-This paper demonstrates that stability evaluations are necessary as a core component of typical analytical workflows.}
-% add explicit and hopeful reference to increased reliability
-% make middle discussion section more explicit in terms of the generality and steps that scientists must take
+contained no trustworthy significant information). While the extreme range and variability in results presented here
+could severely hamper our understanding of brain organization in brain-imaging studies, it also leads to an increase
+in the reliability of datasets. This paper highlights the potential of leveraging the induced variance in estimates of
+brain connectivity to reduce the bias in networks alongside increasing the robustness of their applications in the
+detection or classification of individual differences. This paper demonstrates that stability evaluations are necessary
+for understanding error and bias inherent to scientific computing, and that they should be a component of typical
+analytical workflows.}
 %----------------------------------------------------------------------------------------
 
 \begin{document}
@@ -136,8 +137,8 @@ implications of the observed instabilities were quantified. We accomplished this
 Arithmetic (MCA)~\cite{Parker1997-qq}, a technique which enables characterization of the sensitivity of a system to
 small perturbations. We explored the impact of perturbations through the direct comparision of structural connectomes,
 the consistency of their features, and their eventual application in a neuroscience study. Finally we conclude on the
-consequences of the observed instabilities and make recommendations for the roles stability analyses may play in the
-future of brain imaging.
+consequences and opportunities afforded by the observed instabilities and make recommendations for the roles stability
+analyses may play towards increasing the reliability of brain imaging research.
 
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
@@ -148,7 +149,7 @@ future of brain imaging.
 across MCA series relative to Across Subsample, Across Session, and Aross Subject variations.
 (\textbf{B}) The number of significant decimal digits in each set of connectomes as obtained after evaluating the
 effect of perturbations. In the case of 16, values can be fully relied upon, whereas in the case of 1 only the first
-digit of a value can be trusted. Pipeline- and Input-perturbations are shown on the left and right, respectively.}
+digit of a value can be trusted. Pipeline- and input-perturbations are shown on the left and right, respectively.}
 \label{fig:absolute}
 \end{figure*}
 
@@ -177,9 +178,9 @@ precision for many edges (approaching the maximum of $15.7$ digits for $64$-bit 
 considerable drop off in performance across data subsampling (average of $< 4$ digits). In addition, input
 perturbations show no more than an average of $3$ significant digits across all groups, demonstrating a significant
 limitation in the reliability independent edge weights. Significance across individuals did not exceed a single digit
-per edge in any case, indicating that only the magnitude of edges in groupwise average connectomes can be trusted. The
-combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while specific edge
-weights are largely affected by instabilities, macro-scale network topology is stable.
+per edge in any case, indicating that only the magnitude of edges in naively computed groupwise average connectomes can
+be trusted. The combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while
+specific edge weights are largely affected by instabilities, macro-scale network topology is stable.
 
 \subsection*{Subject-Specific Signal is Amplified While Off-Target Biases Are Reduced}
 \begin{table*}[ht]\centering
@@ -196,18 +197,18 @@ $p < 0.005$.}
 
 We assessed the reproducibility of the dataset through mimicking and extending a typical test-retest
 experiment~\cite{bridgeford2020elim} in which the similarity of samples across multiple measurements were
-compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with a more length description and explanation in
-\sref{supsec:discrimfull}). The ability to separate connectomes across subjects (Hypothesis 1) is an essential
+compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with additional experiments and explanation in
+\sref{supsec:discrimfull}). The ability to separate connectomes across subjects (Hypothesis~1) is an essential
 prerequisite for the application of brain imaging towards identifying individual differences~\cite{Dubois2016-yr}. In
-testing hypothesis 1, we observe that the dataset is separablewith a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
+testing hypothesis~1, we observe that the dataset is separablewith a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
 score: $1.0$; chance: $0.04$) without any instrumentation. However, we can see that inducing instabilities through MCA
 improves the reliability of the dataset to over $0.75$ in each case ($p < 0.001$ for all), significantly higher than
 without instrumentation ($p < 0.005$ for all). This result impactfully suggests the utility of perturbation methods for
 synthesizing robust and reliable individual estimates of connectivity, serving as a cost effective and context-agnostic
 method for dataset augmentation.
 
-While the separability of individuals is essential for the identification of brain networks it is similarly reliant on
-network similarity across equivalent acquisitions (Hypothesis 2). In this case, connectomes were grouped based upon
+While the separability of individuals is essential for the identification of brain networks, it is similarly reliant on
+network similarity across equivalent acquisitions (Hypothesis~2). In this case, connectomes were grouped based upon
 session, rather than subject, and the ability to distinguish one session from another was computed within-individual
 and aggregated. Both the unperturbed and pipeline perturbation settings perfectly preserved differences between
 cross-sectional sessions with a score of $1.0$ ($p < 0.005$; optimal score: $0.5$; chance: $0.5$), indicating a
@@ -219,7 +220,7 @@ of non-biological acquisition-dependent bias inherent in the brain graphs.
 
 Though the previous sets of experiments inextricably evaluate the interaction between the dataset and tool, the use of
 subsampling allowed for characterizing the separability of networks sampled from within a single acquisition
-(Hypothesis 3). While this experiment could not be evaluated using reference executions, the executions performed
+(Hypothesis~3). While this experiment could not be evaluated using reference executions, the executions performed
 with pipeline perturbations showed near perfect separation between subsamples, with scores of $0.99$ and $1.0$
 ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition or preprocessing
 that contributes to this reliable identification of scans, the separability observed in this experiment may only be due
@@ -227,10 +228,12 @@ to instability or bias inherent to the pipelines. The high variability introduce
 considerably lowered the reliability towards chance (score: $0.71$ and $0.61$; $p < 0.005$ for all), further supporting
 this as an effective method for obtaining lower-bias estimates of individual connectivity.
 
-In all cases the induced perturbations showed an amplification of meaningful biological signal alongside a reduction of
-off-target bias across all experiments. This result highlights that stability evaluation can be used not only to
-identify instabilities and variance within pipelines, but that the observed variance may be leveraged for the
-generation of robust distributions of results.
+Across all cases, the induced perturbations showed an amplification of meaningful biological signal alongside a
+reduction of off-target signal. This result appears strikingly like a manifestation of the well-known bias-variance
+tradeoff~\cite{geman1992neural} in machine learning, a concept which observes a decrease in bias as variance is
+favoured by a model. In particular, this highlights that numerical perturbations can be used to not only evaluate the
+stability of pipelines, but that the induced variance may be leveraged for the interpretation as a robust distributions
+of possible results.
 
 \subsection*{Distributions of Graph Statistics Are Reliable, But Individual Statistics Are Not}
 \begin{figure*}[bht!]\centering
@@ -252,7 +255,7 @@ The stability of several commonly-used multivariate graph features~\cite{Betzel2
 Figure~\ref{fig:multivar}. The cumulative density of the features was computed within individuals and the mean
 density and associated standard error were computed for across individuals (Figures~\ref{fig:multivar}A and
 \ref{fig:multivar}B). There was no significant difference beetween the distributions for each feature across the two
-perturbation settings, suggesting that the topological features summarized by these multivariate features is robust
+perturbation settings, suggesting that the topological features summarized by these multivariate features are robust
 across both perturbation modes.
 
 In addition to the comparison of distributions, the stability of the first $5$ moments of these features was evaluated
@@ -260,10 +263,10 @@ In addition to the comparison of distributions, the stability of the first $5$ m
 stable with more than $10$ significant digits with the exception of edge weight when using the deterministic pipeline,
 though the probabilistic pipeline was more stable for all comparisons ($p < 0.0001$; exploratory). In stark contrast,
 input perturbations led to highly unstable feature-moments (Figure~\ref{fig:multivar}D), such that none contained more
-than $5$ significant digits of information and several contained than a single significant digit, indicating a complete
-lack of reliability. This dramatic degradation in stability for individual measures, combined with the stability in
-their cross-subject distributions, strongly suggests that while these features may be unreliable as individual
-biomarkers, they may be used to robustly describe network topologies at a group-level. A similar analysis was performed
+than $5$ significant digits of information and several contained less than a single significant digit, indicating a
+complete lack of reliability. This dramatic degradation in stability for individual measures strongly suggests that
+these features may be unreliable as individual biomarkers when derived from a single pipeline evaluation, though their
+reliability may be increased when studying their distributions across perturbations. A similar analysis was performed
 for univariate statistics and can be found in \sref{supsec:univar}.
 
 \subsection*{Uncertainty in Brain-Phenotype Relationships}
@@ -283,27 +286,29 @@ compared this to reference and random performance (Figure~\ref{fig:bmi}).
 
 The analysis was perturbed through distinct samplings of the dataset across both pipelines and perturbation methods.
 The accuracy and F1 score for the perturbed models varied from $0.520$~–~$0.716$ and $0.510$~–~$0.725$, respectively,
-ranging from at or below random performance to outperforming the reference performance. This large variability
-illustrates a previously uncharacterized margin of uncertainty in the modelling of this relationship, and erodes
-confidence in reported accuracy scores on singly processed datasets. The portion of explained variance in these samples
-ranged from $88.6\%$~-–~$97.8\%$, closely surrounding the reference dataset, suggesting that the range in performance
-was not due to a gain or loss of meaningful signal, but rather the reduction of bias towards specific outcome.
-Importantly, this finding does not suggest that modelling brain-phenotype relationships is not possible, but rather it
-sheds light on impactful uncertainty that must be accounted for in this process.
+ranging from at or below random performance to outperforming performance on the reference dataset. This large
+variability illustrates a previously uncharacterized margin of uncertainty in the modelling of this relationship, and
+limits confidence in reported accuracy scores on singly processed datasets. The portion of explained variance in these
+samples ranged from $88.6\%$~-–~$97.8\%$, similar to the reference, suggesting that the range in performance was not
+due to a gain or loss of meaningful signal, but rather the reduction of bias towards specific outcome. Importantly,
+this finding does not suggest that modelling brain-phenotype relationships is not possible, but rather it sheds light
+on impactful uncertainty that must be accounted for in this process, and supports the use of ensemble modeling
+techniques.
 
 \subsection*{Discussion}
 
 The perturbation of structural connectome estimation pipelines with small amounts of noise, on the order of machine
 error, led to considerable variability in derived brain graphs. Across all analyses the stability of results ranged
-from nearly perfectly trustworthy (i.e. no variation) to completely unreliable (i.e. containing no significant digits
-of information). Given that the magnitude of introduced numerical noise is to be expected in typical settings, this
-finding has potentially significant implications for inferences in brain imaging. In particular, this bounds the
-success of studying individual differences, a central objective in brain imaging~\cite{Dubois2016-yr}, given that the
-quality of relationships between phenotypic data and brain networks will be limited by the stability of the
-connectomes themselves. This issue was accentuated through the crucial finding that individually derived network
-features were unreliable despite there being no significant difference in their aggregated distributions. This finding
-is not damning for the study of brain networks as a whole, but rather is strong support for the groupwise evaluation of
-networks over the use of individual estimates.
+from nearly perfectly trustworthy (i.e. no variation) to completely unreliable (i.e. containing no trustworthy
+information). Given that the magnitude of introduced numerical noise is to be expected in typical settings, this
+finding has potentially significant implications for inferences in brain imaging as it is currently performed. In
+particular, this bounds the success of studying individual differences, a central objective in brain
+imaging~\cite{Dubois2016-yr}, given that the quality of relationships between phenotypic data and brain networks will
+be limited by the stability of the connectomes themselves. This issue was accentuated through the crucial finding that
+individually derived network features were unreliable despite there being no significant difference in their aggregated
+distributions. This finding is not damning for the study of brain networks as a whole, but rather is strong support for
+the aggregation of networks, either across perturbations for an individual or across groups, over the use of individual
+estimates.
 
 \paragraph{Underestimated False Positive Rates}
 While the instability of brain networks was used here to demonstrate the limitations of modelling brain-phenotype
@@ -317,16 +322,17 @@ When performing these experiments outside of a repeated-measure context, such as
 impossible to empirically estimate the reliability of samples. This means that the reliability of accepted hypotheses
 is also unknown, regardless of the reported false positive rate. In fact, it is a virtual certainty that the true false
 positive rate for a given hypothesis exceeds the reported value simply as a result of numerical instabilities. This
-overconfidence in the numerical stability of analyses limits the ability of researchers to evaluate the quality of
-results, and ultimately advance their scientific disciplines. The accompaniment of brain imaging experiments with
-direct evaluations of their stability, as was done here, would allow researchers to simultaneously improve the
-numerical stability of their analyses and accurately gauge confidence in them. Furthermore, the induced variability in
-derived brain networks may be leveraged to shift the bias-variance tradeoff such that learned relationships are more
-generalizable and ultimately the utility of such relationships is increased.
+uncertainty inherent to derived data is compounded with traditional arguments limiting the trustworthiness of
+claims~\cite{ioannidis2005most}, and hampers the ability of researchers to evaluate the quality of results. The
+accompaniment of brain imaging experiments with direct evaluations of their stability, as was done here, would allow
+researchers to simultaneously improve the numerical stability of their analyses and accurately gauge confidence in
+them. The induced variability in derived brain networks may be leveraged to estimate aggregate connectomes with lower
+bias than any single independent observation, leading to learned relationships that are more generalizable and
+ultimately more useful.
 
 \paragraph{Cost-Effective Data Augmentation}
 The evaluation of reliability in brain imaging has historically relied upon the expensive collection of repeated
-measurements choreographed by the massive cross-institutional consortia~\cite{van2013wu,zuo2014open}. The finding that
+measurements choreographed by massive cross-institutional consortia~\cite{van2013wu,zuo2014open}. The finding that
 perturbing experiments using MCA both increased the reliability of the dataset and decreased off-target differences
 across acquisitions opens the door for a promising paradigm shift. Given that MCA is data-agnostic, this technique
 could be used effectively in conjunction with, or in lieu of, realistic noise models to augment existing datasets.
@@ -344,7 +350,7 @@ Given the complexity of recompiling complex software libraries, pre-processing w
 Other work has shown that linear registration, a core piece of many elements of pre-processing such as motion
 correction and alignment, is sensitive to minor perturbations~\cite{Glatard2015-vc}. It is likely that the
 instabilities across the entire processing workflow would be compounded with one another, resulting in even greater
-instability. While the analyses performed in this paper evaluated a single dataset and set of pipelines, extending this
+variability. While the analyses performed in this paper evaluated a single dataset and set of pipelines, extending this
 work to other modalities and analyses is of interest for future projects.
 
 This paper does not explore methodological flexibility or compare this to numerical instability. Recently, the nearly
@@ -357,8 +363,9 @@ from software implementations, libraries, and parametric choices.
 
 Finally, it is important to state explicitly that the work presented here does not invalidate analytical pipelines used
 in brain imaging, but merely sheds light on the fact that many studies are accompanied by an unknown degree of
-uncertainty due to machine-introduced errors. The desired outcome of this paper is to motivate a shift in scientific
-computing - particularly in neuroimaging – towards a paradigm which values the explicit evaluation of the
+uncertainty due to machine-introduced errors. The presence of unknown error-bars associated with experimental findings
+limits the impact of results due to increased uncertainty. The desired outcome of this paper is to motivate a shift in
+scientific computing – particularly in neuroimaging – towards a paradigm which favours the explicit evaluation of the
 trustworthiness of claims alongside the claims themselves.
  
 %----------------------------------------------------------------------------------------
