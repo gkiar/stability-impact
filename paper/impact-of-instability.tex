@@ -117,7 +117,7 @@ of the brain across a variety of organisms and scales over the last
 decade~\cite{behrens2012human,xia2016connectomic,morgan2013not,van2016comparative,Rubinov2010-fh,Dubois2016-yr}.
 In humans, these wiring diagrams are obtained \textit{in vivo} through Magnetic Resonance Imaging (MRI), and show
 promise towards identifying biomarkers of disease. This can not only improve understanding of so-called
-``connectopathies'', such as Alzhiemer's Disease and Schizophrenia, but potentially pave the way for
+``connectopathies'', such as Alzheimer's Disease and Schizophrenia, but potentially pave the way for
 therapeutics~\cite{fornito2015connectomics,deco2014great,xie2012mapping,filippi2013assessment,van2014brain}.
 
 However, the analysis of brain imaging data relies on complex computational methods and software. Tools are
@@ -200,7 +200,7 @@ experiment~\cite{bridgeford2020elim} in which the similarity of samples across m
 compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with additional experiments and explanation in
 \sref{supsec:discrimfull}). The ability to separate connectomes across subjects (Hypothesis~1) is an essential
 prerequisite for the application of brain imaging towards identifying individual differences~\cite{Dubois2016-yr}. In
-testing hypothesis~1, we observe that the dataset is separablewith a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
+testing hypothesis~1, we observe that the dataset is separable with a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
 score: $1.0$; chance: $0.04$) without any instrumentation. However, we can see that inducing instabilities through MCA
 improves the reliability of the dataset to over $0.75$ in each case ($p < 0.001$ for all), significantly higher than
 without instrumentation ($p < 0.005$ for all). This result impactfully suggests the utility of perturbation methods for
@@ -254,7 +254,7 @@ individuals, and connectomes were generated as above.
 The stability of several commonly-used multivariate graph features~\cite{Betzel2018-eo} was explored in
 Figure~\ref{fig:multivar}. The cumulative density of the features was computed within individuals and the mean
 density and associated standard error were computed for across individuals (Figures~\ref{fig:multivar}A and
-\ref{fig:multivar}B). There was no significant difference beetween the distributions for each feature across the two
+\ref{fig:multivar}B). There was no significant difference between the distributions for each feature across the two
 perturbation settings, suggesting that the topological features summarized by these multivariate features are robust
 across both perturbation modes.
 
@@ -278,7 +278,7 @@ indicate random-chance performance, and the orange dots show the performance usi
 \label{fig:bmi}
 \end{figure*}
  
-While the variability of connectomes and their features was summarized above, networks are commonly-used as inputs to
+While the variability of connectomes and their features was summarized above, networks are commonly used as inputs to
 machine learning models tasked with learning brain-phenotype relationships~\cite{Dubois2016-yr}. To explore the
 stability of these analyses, we modelled the relationship between high- or low- Body Mass Index (BMI) groups and brain
 connectivity~\cite{Park2015-uj,Gupta2015-ap}, using standard dimensionality reduction and classification tools, and
@@ -453,7 +453,7 @@ to as Input Perturbation. In this case, the inputs to operations within the inst
 Cython) were perturbed, resulting in less frequent, data-centric perturbations. Alongside the stated theoretical
 differences, Input Perturbation is considerably less computationally expensive than Pipeline Perturbation.
 
-All perturbations were targeted the least-significant-bit for all data ($t=24$ and $t=53$ in float32 and float64,
+All perturbations targeted the least-significant-bit for all data ($t=24$ and $t=53$ in float32 and float64,
 respectively~\cite{Denis2016-wo}). Simulations were performed $20$ times for each pipeline execution. A detailed
 motivation for the number of simulations can be found in~\cite{Sohier2018-ts}.
 
@@ -581,8 +581,7 @@ available through The Canadian Open Neuroscience Platform (\url{https://portal.c
 \subsection*{Code Availability}
 All software developed for processing or evaluation is publicly available on GitHub at
 \url{https://github.com/gkpapers/2020ImpactOfInstability}. Experiments were launched using
-Boutiques~\cite{Glatard2018-tu} and Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment. A set of MCA
-instrumented software containers is available on Github at \url{https://github.com/gkiar/fuzzy}. 
+Boutiques~\cite{Glatard2018-tu} and Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment. MCA instrumentation was achieved through Verificarlo~\cite{Denis2016-wo} available on Github at \url{https://github.com/verificarlo/verificarlo}. A set of MCA instrumented software containers is available on Github at \url{https://github.com/gkiar/fuzzy}.
 
 \subsection*{Author Contributions}
 GK was responsible for the experimental design, data processing, analysis, interpretation, and the majority of writing.
