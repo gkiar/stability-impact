@@ -230,7 +230,7 @@ justification=raggedright]{caption}
 \ifx\@Keywords\@empty%
 \sffamily\textbf{\abstractname}\\\@Abstract%
 \else%
-\sffamily\@Abstract\\[4pt]%
+\sffamily\textbf{\abstractname}\\\@Abstract\\[4pt]%
 \textbf{\keywordname}\\\@Keywords%
 \fi%
 }%

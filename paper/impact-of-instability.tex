@@ -368,12 +368,6 @@ limits the impact of results due to increased uncertainty. The desired outcome o
 scientific computing – particularly in neuroimaging – towards a paradigm which favours the explicit evaluation of the
 trustworthiness of claims alongside the claims themselves.
  
-%----------------------------------------------------------------------------------------
-%	REFERENCE LIST
-%----------------------------------------------------------------------------------------
-% \phantomsection
-\bibliographystyle{IEEEtran}
-\bibliography{impact-of-instability}
 
 % methods (including separate data and code availability statement), methods references, 
 \clearpage
@@ -570,34 +564,40 @@ was selected as the minimum set which explained $> 90\%$ of the variance when av
 fold within the cross validation of the original graphs; this resulted in a feature of $20$ components. We trained the
 model using $k$-fold cross validation, with $k = 2, 5, 10,$ and $N$ (equivalent to leave-one-out; LOO).
 
-%------------------------------------------------
-\subsection*{Data Availability}
+\subsubsection*{Data \& Code Provenance}
 The unprocessed dataset is available through The Consortium of Reliability and Reproducibility
 (\url{http://fcon_1000.projects.nitrc.org/indi/enhanced/}), including both the imaging data as well as phenotypic data
 which may be obtained upon submission and compliance with a Data Usage Agreement. The connectomes generated through
 simulations have been bundled and stored permanently (\url{https://doi.org/10.5281/zenodo.4041549}), and are made
 available through The Canadian Open Neuroscience Platform (\url{https://portal.conp.ca/search}, search term "Kiar").
 
-\subsection*{Code Availability}
 All software developed for processing or evaluation is publicly available on GitHub at
 \url{https://github.com/gkpapers/2020ImpactOfInstability}. Experiments were launched using
-Boutiques~\cite{Glatard2018-tu} and Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment. MCA instrumentation was achieved through Verificarlo~\cite{Denis2016-wo} available on Github at \url{https://github.com/verificarlo/verificarlo}. A set of MCA instrumented software containers is available on Github at \url{https://github.com/gkiar/fuzzy}.
+Boutiques~\cite{Glatard2018-tu} and Clowdr~\cite{Kiar2019-sr} in Compute Canada's HPC cluster environment. MCA
+instrumentation was achieved through Verificarlo~\cite{Denis2016-wo} available on Github at
+\url{https://github.com/verificarlo/verificarlo}. A set of MCA instrumented software containers is available on Github
+at \url{https://github.com/gkiar/fuzzy}.
+
 
 \subsection*{Author Contributions}
 GK was responsible for the experimental design, data processing, analysis, interpretation, and the majority of writing.
 All authors contributed to the revision of the manuscript. YC, POC, and EP were responsible for MCA tool development
 and software testing. AR, GV, and BM contributed to experimental design and interpretation. TG contributed to
 experimental design, analysis, and interpretation. TG and ACE were responsible for supervising and supporting all
-contributions made by GK. The authors declare no competing interests for this work.
+contributions made by GK. The authors declare no competing interests for this work. Correspondence and requests for
+materials should be addressed to Tristan Glatard at \url{tristan.glatard@concordia.ca}.
 
 \subsection*{Acknowledgments} 
 This research was financially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC)
 (award no. CGSD3-519497-2018). This work was also supported in part by funding provided by Brain Canada, in partnership
 with Health Canada, for the Canadian Open Neuroscience Platform initiative.
 
-\subsection*{Additional Information}
-Supplementary Information is available for this paper. Correspondence and requests for materials should be addressed to
-Tristan Glatard at \url{tristan.glatard@concordia.ca}.
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+% \phantomsection
+\bibliographystyle{IEEEtran}
+\bibliography{impact-of-instability}
 
 %----------------------------------------------------------------------------------------
 \beginsupplement
